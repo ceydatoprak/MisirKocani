@@ -13,13 +13,26 @@ public class CornPeelController : MonoBehaviour
 
     // Tanelerin aras�ndaki k���k bo�luklar� tolere eder.
     // Inspector'dan de�i�tirebilirsin.
-    public float peelDetectionRadius = 35f;
+    public float peelDetectionRadius = 45f;
 
     // Bir tanenin onunde, kocan/govde collider'i (CapsuleCollider yaklasik bir sekildir, gercek
     // mesh yuzeyini birebir takip etmez) bu mesafe kadar yakinsa yine de o tane secilebilir sayilir.
     // Boylece govdeye yakin/kismen arkasinda kalan ust taneler raycast'te atlanmaz, ama gercekten
     // govdenin cok arkasinda kalan (buyuk mesafe farkli) taneler yine de secilemez.
-    public float kernelOcclusionTolerance = 0.35f;
+    // Yukseltildi: yan acidan gorunen taneler, kabaca yaklasan kapsul collider yuzunden
+    // "arkada" sayilip atlanmasin diye (kullanici sadece onden degil, yandan gorunen
+    // taneleri de suruklerken dokebilmeli).
+    public float kernelOcclusionTolerance = 0.9f;
+
+    // Tanenin "disariya donuk" yuzeyinin kameraya ne kadar donuk olmasi gerektigi (dot carpimi, -1..1).
+    // 1 = tam kameraya bakiyor (klasik on yuz), 0 = tam yandan (siluet kenari), negatif = arkaya donuk.
+    // Kocan uste dogru incelirken (dar ust satirlar) yaklasik kapsul collider ile gercek yuzey arasindaki
+    // fark buyudugunden, sadece mesafe toleransina (kernelOcclusionTolerance) guvenmek ust satirlardaki
+    // yandan gorunen taneleri "arkada" sayip elerdi. Bu esik, tanenin GERCEK yonelimine bakarak (kocanin
+    // kaba govde seklinden bagimsiz) yandan/siluet kenarindaki taneleri de secilebilir kilar; gercekten
+    // kocanin arka tarafina donuk taneler yine de reddedilir.
+    [Range(-1f, 1f)]
+    public float kernelFacingDotThreshold = -0.35f;
 
     // Physics.RaycastNonAlloc icin sinif seviyesinde bir kez olusturulan, tekrar kullanilan tampon;
     // her dokunma/orneklemede yeni dizi/liste/LINQ allocation'i onler.
@@ -157,7 +170,10 @@ public class CornPeelController : MonoBehaviour
         }
 
 
-        if (touch.phase == TouchPhase.Moved)
+        // Moved VE Stationary (parmak basiliyken kisaca durdugunda) ayni sekilde islenir.
+        // Boylece parmak kaldirilmadigi surece dokulme/dondurme kesintiye ugramaz.
+        if (touch.phase == TouchPhase.Moved ||
+            touch.phase == TouchPhase.Stationary)
         {
             Vector2 currentPosition = touch.position;
 
@@ -307,16 +323,51 @@ public class CornPeelController : MonoBehaviour
             return null;
         }
 
-        // Tanenin onunde, kocan/govde collider'inin yaklasik sekli yuzunden
-        // toleransi asan gercek bir engel varsa (tane gercekten cok arkada/uzakta kaliyorsa)
-        // secilebilir sayma; boylece cok uzaktaki veya govdenin arka yuzundeki taneler
-        // yanlislikla secilmez, kocani dondurme hareketi de bozulmaz.
-        if (closestKernelDistance > closestDistance + kernelOcclusionTolerance)
+        // Iki bagimsiz kontrolden EN AZ biri gecerse tane secilebilir sayilir:
+        // 1) Mesafe toleransi: kocan/govde collider'inin yaklasik sekli yuzunden
+        //    toleransi asan gercek bir engel yoksa (eski davranis).
+        // 2) Yon kontrolu: mesafe kontrolu, ust satirlarda kocanin daralmasi yuzunden
+        //    yandan gorunen taneleri yanlislikla "arkada" sayabilir; ama tanenin kendi
+        //    disariya-donuk yuzu hala kameraya yeterince donukse (siluet kenarina kadar)
+        //    yine de secilebilir olmali.
+        bool passesDistanceTolerance =
+            closestKernelDistance <= closestDistance + kernelOcclusionTolerance;
+
+        bool passesFacingCheck =
+            IsKernelFacingCamera(closestKernel);
+
+        if (!passesDistanceTolerance && !passesFacingCheck)
         {
             return null;
         }
 
         return closestKernel;
+    }
+
+
+    // Tanenin disariya-donuk yuzunun (KernelSpawner'da transform.forward = disari yon olacak
+    // sekilde ayarlanir) kameraya ne kadar donuk oldugunu dot carpimiyla olcer. Kocanin kaba
+    // govde collider'inden tamamen bagimsizdir; bu yuzden ust satirlarda (dar yaricap) mesafe
+    // toleransinin kacirdigi yandan gorunen taneleri de dogru sekilde yakalar.
+    private bool IsKernelFacingCamera(KernelPiece kernel)
+    {
+        if (Camera.main == null)
+        {
+            return false;
+        }
+
+        Vector3 towardCamera =
+            Camera.main.transform.position - kernel.transform.position;
+
+        if (towardCamera.sqrMagnitude < 0.0001f)
+        {
+            return true;
+        }
+
+        float facingDot =
+            Vector3.Dot(kernel.transform.forward, towardCamera.normalized);
+
+        return facingDot >= kernelFacingDotThreshold;
     }
 
 
@@ -337,6 +388,8 @@ public class CornPeelController : MonoBehaviour
 
 
         // K���k bir �evreyi de kontrol ediyoruz.
+        // Kosegen yonler de eklendi: yan acidan gorunen, ekran uzayinda dar/egik
+        // duran taneler sadece dikey/yatay orneklemeyle atlanmasin diye.
         float smallRadius =
             peelDetectionRadius * 0.5f;
 
@@ -346,7 +399,12 @@ public class CornPeelController : MonoBehaviour
             new Vector2(-smallRadius, 0f),
 
             new Vector2(0f, smallRadius),
-            new Vector2(0f, -smallRadius)
+            new Vector2(0f, -smallRadius),
+
+            new Vector2(smallRadius, smallRadius),
+            new Vector2(-smallRadius, smallRadius),
+            new Vector2(smallRadius, -smallRadius),
+            new Vector2(-smallRadius, -smallRadius)
         };
 
 

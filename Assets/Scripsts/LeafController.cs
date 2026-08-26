@@ -1,19 +1,12 @@
 using UnityEngine;
 using System.Collections;
 
-// Modelden bagimsiz, suruklemeyle acilan yaprak mantigi.
+// Modelden bagimsiz, tek dokunusla acilan yaprak mantigi.
 public class LeafController : MonoBehaviour
 {
-    [Header("Surukleme Ayarlari")]
-    [Tooltip("Yapragin tamamen acilmasi icin gereken surukleme mesafesi (piksel).")]
-    [SerializeField] private float dragDistanceForFullOpen = 150f;
-
-    [Tooltip("Birakildiginda yapragin tamamen acik kalmasi icin gereken ilerleme esigi (0-1).")]
-    [SerializeField][Range(0f, 1f)] private float openThreshold = 0.5f;
-
     [Header("Animasyon Ayarlari")]
-    [Tooltip("Birakma sonrasi acilma/kapanma animasyonunun suresi (saniye).")]
-    [SerializeField] private float snapAnimationDuration = 0.35f;
+    [Tooltip("Dokunma sonrasi acilma animasyonunun suresi (saniye).")]
+    [SerializeField] private float snapAnimationDuration = 0.4f;
 
     [Header("Acik Pozisyon / Rotasyon")]
     [Tooltip("Pivot'un acik haldeki local pozisyon farki.")]
@@ -39,28 +32,31 @@ public class LeafController : MonoBehaviour
     [Header("Yaprak Dusme Ayarlari")]
 
     [Tooltip("Yapragin dusmeye basladiktan sonra sahnede kalacagi sure.")]
-    [SerializeField] private float leafPhysicsLifetime = 1.5f;
+    [SerializeField] private float leafPhysicsLifetime = 2.4f;
 
     [Tooltip("Yapragin kaybolmadan once kuculme suresi.")]
-    [SerializeField] private float leafShrinkDuration = 0.25f;
+    [SerializeField] private float leafShrinkDuration = 0.4f;
 
     [Tooltip("Yapragin asagi dogru baslangic hizi.")]
-    [SerializeField] private float leafDownwardVelocity = 0.8f;
+    [SerializeField] private float leafDownwardVelocity = 0.3f;
 
     [Tooltip("Yapragin kocandan disari dogru hareket hizi.")]
-    [SerializeField] private float leafOutwardVelocity = 0.25f;
+    [SerializeField] private float leafOutwardVelocity = 0.15f;
 
     [Tooltip("Duserken uygulanacak rastgele donus miktari.")]
-    [SerializeField] private float leafTorqueAmount = 1.5f;
+    [SerializeField] private float leafTorqueAmount = 0.8f;
 
     [Tooltip("Yapraga runtime sirasinda eklenecek Rigidbody kutlesi.")]
-    [SerializeField] private float leafRigidbodyMass = 0.35f;
+    [SerializeField] private float leafRigidbodyMass = 0.25f;
 
-    [Tooltip("Yapragin hava direnci.")]
-    [SerializeField] private float leafRigidbodyDrag = 0.3f;
+    // Gercek bir yaprak gibi havada yavas suzulerek dussun diye hava direnci
+    // belirgin sekilde yukseltildi (eski deger: 0.3). Yuksek drag, yercekiminin
+    // ivmesini frenleyerek dususu yavaslatir ve daha zarif gorunmesini saglar.
+    [Tooltip("Yapragin hava direnci (yuksek deger = daha yavas/zarif dusus).")]
+    [SerializeField] private float leafRigidbodyDrag = 1.8f;
 
     [Tooltip("Yapragin donus direnci.")]
-    [SerializeField] private float leafRigidbodyAngularDrag = 0.5f;
+    [SerializeField] private float leafRigidbodyAngularDrag = 1.2f;
 
     private Transform pivot;
     private Collider leafCollider;
@@ -84,11 +80,9 @@ public class LeafController : MonoBehaviour
     private Vector3 replacementVisualLocalHingeAxis;
     private Vector3 replacementVisualLocalHingePoint;
 
-    private bool isDragging = false;
     private bool isAnimating = false;
     private bool isOpen = false;
 
-    private Vector2 dragStartScreenPosition;
     private float currentProgress = 0f;
 
     private Coroutine snapRoutine;
@@ -373,21 +367,7 @@ public class LeafController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            TryBeginDrag(Input.mousePosition);
-        }
-        else if (
-            isDragging &&
-            Input.GetMouseButton(0)
-        )
-        {
-            UpdateDrag(Input.mousePosition);
-        }
-        else if (
-            isDragging &&
-            Input.GetMouseButtonUp(0)
-        )
-        {
-            EndDrag();
+            TryOpen(Input.mousePosition);
         }
     }
 
@@ -397,67 +377,17 @@ public class LeafController : MonoBehaviour
 
         if (touch.phase == TouchPhase.Began)
         {
-            TryBeginDrag(touch.position);
-        }
-        else if (
-            isDragging &&
-            touch.phase == TouchPhase.Moved
-        )
-        {
-            UpdateDrag(touch.position);
-        }
-        else if (
-            isDragging &&
-            (
-                touch.phase == TouchPhase.Ended ||
-                touch.phase == TouchPhase.Canceled
-            )
-        )
-        {
-            EndDrag();
+            TryOpen(touch.position);
         }
     }
 
-    private void TryBeginDrag(Vector2 screenPosition)
+    // Tek dokunusla yapragin tamamen acilip dusme animasyonunu baslatir.
+    private void TryOpen(Vector2 screenPosition)
     {
         if (!IsPointerOnThisLeaf(screenPosition))
             return;
 
-        isDragging = true;
-        dragStartScreenPosition = screenPosition;
-    }
-
-    private void UpdateDrag(Vector2 screenPosition)
-    {
-        float draggedDistance =
-            Vector2.Distance(
-                dragStartScreenPosition,
-                screenPosition
-            );
-
-        float rawProgress =
-            dragDistanceForFullOpen > 0f
-                ? draggedDistance /
-                  dragDistanceForFullOpen
-                : 1f;
-
-        currentProgress =
-            Mathf.Clamp01(rawProgress);
-
-        ApplyProgress(currentProgress);
-    }
-
-    private void EndDrag()
-    {
-        isDragging = false;
-
-        bool shouldOpen =
-            currentProgress >= openThreshold;
-
-        SnapTo(
-            shouldOpen ? 1f : 0f,
-            shouldOpen
-        );
+        SnapTo(1f, true);
     }
 
     private bool IsPointerOnThisLeaf(
