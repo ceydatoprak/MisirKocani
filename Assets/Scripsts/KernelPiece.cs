@@ -3,6 +3,23 @@ using UnityEngine;
 
 public class KernelPiece : MonoBehaviour
 {
+    [Header("Tane Sesi")]
+    [Tooltip("Tane kocandan ayrildiginda calacak ses.")]
+    [SerializeField] private AudioClip kernelPeelSound;
+
+    [Tooltip("Tane sesinin ses seviyesi.")]
+    [Range(0f, 1f)]
+    [SerializeField] private float kernelSoundVolume = 0.8f;
+
+    [Tooltip("Cok hizli soyulmada seslerin birbirine fazla binmesini engeller.")]
+    [Range(0.01f, 0.2f)]
+    [SerializeField] private float kernelSoundMinInterval = 0.035f;
+
+    [Tooltip("Her tanede cok hafif farkli ton kullanarak sesi daha dogal yapar.")]
+    [Range(0f, 0.2f)]
+    [SerializeField] private float kernelSoundPitchVariation = 0.04f;
+
+
     [Header("Mobil Titresim")]
     [Tooltip("Taneler soyulurken mobil cihazda titresim verilmesini acar/kapatir.")]
     public bool enableHaptics = true;
@@ -15,12 +32,14 @@ public class KernelPiece : MonoBehaviour
     [Range(0.02f, 0.2f)]
     public float hapticMinInterval = 0.06f;
 
+
     [Header("Pop Animasyonu")]
     [Tooltip("Soyulma aninda tanenin hafifce buyudugu 'pop' fazinin suresi (saniye).")]
     public float popDuration = 0.08f;
 
     [Tooltip("Pop fazinda tanenin ulasacagi olcek carpani (1 = degisim yok).")]
     public float popScale = 1.15f;
+
 
     [Header("Firlama Hizi")]
     [Tooltip("Tanenin kocan merkezinden disariya dogru firlama hizi.")]
@@ -35,12 +54,14 @@ public class KernelPiece : MonoBehaviour
     [Tooltip("Dususte dogal gorunmesi icin uygulanan rastgele tork miktari.")]
     public float torqueAmount = 1.5f;
 
+
     [Header("Fizik Omru")]
     [Tooltip("Tanenin fizik simulasyonunda kalacagi yaklasik sure.")]
     public float physicsLifetime = 1.5f;
 
     [Tooltip("Tanenin kuculup pasif hale gelme suresi.")]
     public float shrinkDuration = 0.2f;
+
 
     [Header("Rigidbody Ayarlari")]
     [Tooltip("Soyulan taneye eklenecek Rigidbody kutlesi.")]
@@ -52,108 +73,258 @@ public class KernelPiece : MonoBehaviour
     [Tooltip("Rigidbody acisal surtunmesi.")]
     public float rigidbodyAngularDrag = 0.5f;
 
+
     private bool isPeeled = false;
+
+    private AudioSource kernelAudioSource;
+
 
     // Tum taneler arasinda ortak tutulur.
     // Boylece ayni karede birden fazla tane soyulsa bile titresimler ust uste binmez.
     private static float lastHapticTime = -100f;
+
+    // Ayni mantik ses icin de kullanilir.
+    // Hizli suruklemede onlarca ses ayni anda baslamasin.
+    private static float lastKernelSoundTime = -100f;
+
+
+    private void Awake()
+    {
+        kernelAudioSource = GetComponent<AudioSource>();
+
+        // Prefabda AudioSource yoksa otomatik olarak ekle.
+        if (kernelAudioSource == null)
+        {
+            kernelAudioSource =
+                gameObject.AddComponent<AudioSource>();
+        }
+
+        kernelAudioSource.playOnAwake = false;
+        kernelAudioSource.loop = false;
+
+        // Mobil oyun efekti olarak 2D calar.
+        // Kameradan uzaklasinca ses kisilmaz.
+        kernelAudioSource.spatialBlend = 0f;
+    }
+
 
     public void Peel()
     {
         if (isPeeled)
             return;
 
-        // Kilit hemen kapanir. Ayni tane ikinci kez islenemez.
+        // Kilit hemen kapanir.
+        // Ayni tane ikinci kez islenemez.
         isPeeled = true;
+
+
+        // Tane ayrildigi anda ses.
+        TryPlayKernelSound();
+
 
         // Yalnizca gercekten soyulan tane icin bir kez calisir.
         TryTriggerHaptic();
 
-        Debug.Log(gameObject.name + " tanesi soyuldu!");
+
+        Debug.Log(
+            gameObject.name +
+            " tanesi soyuldu!"
+        );
+
 
         CornPeelController controller =
             GetComponentInParent<CornPeelController>();
+
 
         if (controller != null)
         {
             controller.KernelRemoved();
         }
 
-        Vector3 outwardDirection = ComputeOutwardDirection(controller);
 
-        int ignoreRaycastLayer = LayerMask.NameToLayer("Ignore Raycast");
+        Vector3 outwardDirection =
+            ComputeOutwardDirection(controller);
+
+
+        int ignoreRaycastLayer =
+            LayerMask.NameToLayer(
+                "Ignore Raycast"
+            );
+
 
         if (ignoreRaycastLayer >= 0)
         {
-            SetLayerRecursively(transform, ignoreRaycastLayer);
+            SetLayerRecursively(
+                transform,
+                ignoreRaycastLayer
+            );
         }
 
-        StartCoroutine(PopAndFall(outwardDirection));
+
+        StartCoroutine(
+            PopAndFall(outwardDirection)
+        );
     }
+
+
+    private void TryPlayKernelSound()
+    {
+        if (kernelPeelSound == null)
+            return;
+
+
+        if (kernelAudioSource == null)
+            return;
+
+
+        // Hizli suruklemede ayni anda cok fazla ses baslamasin.
+        if (
+            Time.unscaledTime -
+            lastKernelSoundTime <
+            kernelSoundMinInterval
+        )
+        {
+            return;
+        }
+
+
+        lastKernelSoundTime =
+            Time.unscaledTime;
+
+
+        // Her tanede cok hafif ton farki.
+        // Ayni sesin surekli tekrar ettigi hissini azaltir.
+        kernelAudioSource.pitch =
+            Random.Range(
+                1f - kernelSoundPitchVariation,
+                1f + kernelSoundPitchVariation
+            );
+
+
+        kernelAudioSource.PlayOneShot(
+            kernelPeelSound,
+            kernelSoundVolume
+        );
+    }
+
 
     private void TryTriggerHaptic()
     {
         if (!enableHaptics)
             return;
 
-        if (Time.unscaledTime - lastHapticTime < hapticMinInterval)
-            return;
 
-        lastHapticTime = Time.unscaledTime;
+        if (
+            Time.unscaledTime -
+            lastHapticTime <
+            hapticMinInterval
+        )
+        {
+            return;
+        }
+
+
+        lastHapticTime =
+            Time.unscaledTime;
+
 
 #if UNITY_ANDROID && !UNITY_EDITOR
+
         TriggerAndroidHaptic();
+
 #elif UNITY_IOS && !UNITY_EDITOR
+
         Handheld.Vibrate();
+
 #endif
     }
 
+
 #if UNITY_ANDROID && !UNITY_EDITOR
+
     private void TriggerAndroidHaptic()
     {
         try
         {
-            using (AndroidJavaClass unityPlayer =
-                   new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
+            using (
+                AndroidJavaClass unityPlayer =
+                    new AndroidJavaClass(
+                        "com.unity3d.player.UnityPlayer"
+                    )
+            )
             {
                 AndroidJavaObject activity =
-                    unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+                    unityPlayer.GetStatic<AndroidJavaObject>(
+                        "currentActivity"
+                    );
 
-                using (AndroidJavaObject vibrator =
-                       activity.Call<AndroidJavaObject>(
-                           "getSystemService",
-                           "vibrator"))
+
+                using (
+                    AndroidJavaObject vibrator =
+                        activity.Call<AndroidJavaObject>(
+                            "getSystemService",
+                            "vibrator"
+                        )
+                )
                 {
                     if (vibrator == null)
                         return;
 
-                    bool hasVibrator = vibrator.Call<bool>("hasVibrator");
+
+                    bool hasVibrator =
+                        vibrator.Call<bool>(
+                            "hasVibrator"
+                        );
+
 
                     if (!hasVibrator)
                         return;
 
-                    using (AndroidJavaClass version =
-                           new AndroidJavaClass("android.os.Build$VERSION"))
+
+                    using (
+                        AndroidJavaClass version =
+                            new AndroidJavaClass(
+                                "android.os.Build$VERSION"
+                            )
+                    )
                     {
-                        int sdkVersion = version.GetStatic<int>("SDK_INT");
+                        int sdkVersion =
+                            version.GetStatic<int>(
+                                "SDK_INT"
+                            );
+
 
                         if (sdkVersion >= 26)
                         {
-                            using (AndroidJavaClass vibrationEffect =
-                                   new AndroidJavaClass(
-                                       "android.os.VibrationEffect"))
+                            using (
+                                AndroidJavaClass vibrationEffect =
+                                    new AndroidJavaClass(
+                                        "android.os.VibrationEffect"
+                                    )
+                            )
                             {
                                 int defaultAmplitude =
-                                    vibrationEffect.GetStatic<int>(
-                                        "DEFAULT_AMPLITUDE");
+                                    vibrationEffect
+                                        .GetStatic<int>(
+                                            "DEFAULT_AMPLITUDE"
+                                        );
 
-                                using (AndroidJavaObject effect =
-                                       vibrationEffect.CallStatic<AndroidJavaObject>(
-                                           "createOneShot",
-                                           (long)hapticDurationMilliseconds,
-                                           defaultAmplitude))
+
+                                using (
+                                    AndroidJavaObject effect =
+                                        vibrationEffect
+                                            .CallStatic<AndroidJavaObject>(
+                                                "createOneShot",
+                                                (long)
+                                                hapticDurationMilliseconds,
+                                                defaultAmplitude
+                                            )
+                                )
                                 {
-                                    vibrator.Call("vibrate", effect);
+                                    vibrator.Call(
+                                        "vibrate",
+                                        effect
+                                    );
                                 }
                             }
                         }
@@ -161,7 +332,8 @@ public class KernelPiece : MonoBehaviour
                         {
                             vibrator.Call(
                                 "vibrate",
-                                (long)hapticDurationMilliseconds
+                                (long)
+                                hapticDurationMilliseconds
                             );
                         }
                     }
@@ -170,89 +342,180 @@ public class KernelPiece : MonoBehaviour
         }
         catch
         {
-            // Native kisa titresim desteklenmezse Unity'nin standart
-            // titresimi yedek olarak kullanilir.
+            // Native kisa titresim desteklenmezse
+            // Unity'nin standart titresimi kullanilir.
             Handheld.Vibrate();
         }
     }
+
 #endif
 
-    private Vector3 ComputeOutwardDirection(
-        CornPeelController controller)
-    {
-        Vector3 center = controller != null
-            ? controller.transform.position
-            : transform.parent != null
-                ? transform.parent.position
-                : Vector3.zero;
 
-        Vector3 diff = transform.position - center;
+    private Vector3 ComputeOutwardDirection(
+        CornPeelController controller
+    )
+    {
+        Vector3 center =
+            controller != null
+                ? controller.transform.position
+                : transform.parent != null
+                    ? transform.parent.position
+                    : Vector3.zero;
+
+
+        Vector3 diff =
+            transform.position -
+            center;
+
+
         diff.y = 0f;
+
 
         if (diff.sqrMagnitude < 0.0001f)
         {
             return transform.forward;
         }
 
+
         return diff.normalized;
     }
 
+
     private static void SetLayerRecursively(
         Transform root,
-        int layer)
+        int layer
+    )
     {
-        root.gameObject.layer = layer;
+        root.gameObject.layer =
+            layer;
 
-        for (int i = 0; i < root.childCount; i++)
+
+        for (
+            int i = 0;
+            i < root.childCount;
+            i++
+        )
         {
-            SetLayerRecursively(root.GetChild(i), layer);
+            SetLayerRecursively(
+                root.GetChild(i),
+                layer
+            );
         }
     }
 
-    private IEnumerator PopAndFall(
-        Vector3 outwardDirection)
-    {
-        Vector3 startScale = transform.localScale;
-        Vector3 poppedScale = startScale * popScale;
 
-        float elapsed = 0f;
+    private IEnumerator PopAndFall(
+        Vector3 outwardDirection
+    )
+    {
+        Vector3 startScale =
+            transform.localScale;
+
+
+        Vector3 poppedScale =
+            startScale *
+            popScale;
+
+
+        float elapsed =
+            0f;
+
 
         while (elapsed < popDuration)
         {
-            elapsed += Time.deltaTime;
+            elapsed +=
+                Time.deltaTime;
 
-            float t = popDuration > 0f
-                ? Mathf.Clamp01(elapsed / popDuration)
-                : 1f;
+
+            float t =
+                popDuration > 0f
+                    ? Mathf.Clamp01(
+                        elapsed /
+                        popDuration
+                    )
+                    : 1f;
+
 
             transform.localScale =
-                Vector3.Lerp(startScale, poppedScale, t);
+                Vector3.Lerp(
+                    startScale,
+                    poppedScale,
+                    t
+                );
+
 
             yield return null;
         }
 
-        transform.localScale = poppedScale;
 
-        transform.SetParent(null, true);
+        transform.localScale =
+            poppedScale;
 
-        Rigidbody rb = gameObject.AddComponent<Rigidbody>();
 
-        rb.mass = rigidbodyMass;
-        rb.drag = rigidbodyDrag;
-        rb.angularDrag = rigidbodyAngularDrag;
-        rb.useGravity = true;
-        rb.isKinematic = false;
-        rb.interpolation = RigidbodyInterpolation.Interpolate;
+        transform.SetParent(
+            null,
+            true
+        );
+
+
+        Rigidbody rb =
+            gameObject
+                .AddComponent<Rigidbody>();
+
+
+        rb.mass =
+            rigidbodyMass;
+
+
+        rb.drag =
+            rigidbodyDrag;
+
+
+        rb.angularDrag =
+            rigidbodyAngularDrag;
+
+
+        rb.useGravity =
+            true;
+
+
+        rb.isKinematic =
+            false;
+
+
+        rb.interpolation =
+            RigidbodyInterpolation.Interpolate;
+
 
         Vector3 sidewaysDirection =
-            Vector3.Cross(Vector3.up, outwardDirection);
+            Vector3.Cross(
+                Vector3.up,
+                outwardDirection
+            );
+
 
         Vector3 launchVelocity =
             outwardDirection *
-            (outwardVelocity + Random.Range(-0.15f, 0.15f)) +
+            (
+                outwardVelocity +
+                Random.Range(
+                    -0.15f,
+                    0.15f
+                )
+            )
+
+            +
 
             Vector3.up *
-            (upwardVelocity + Random.Range(-0.1f, 0.1f)) +
+            (
+                upwardVelocity +
+                Random.Range(
+                    -0.1f,
+                    0.1f
+                )
+            )
+
+            +
 
             sidewaysDirection *
             Random.Range(
@@ -260,34 +523,76 @@ public class KernelPiece : MonoBehaviour
                 sidewaysRandomness
             );
 
-        rb.velocity = launchVelocity;
 
-        Vector3 randomTorque = new Vector3(
-            Random.Range(-torqueAmount, torqueAmount),
-            Random.Range(-torqueAmount, torqueAmount),
-            Random.Range(-torqueAmount, torqueAmount)
+        rb.velocity =
+            launchVelocity;
+
+
+        Vector3 randomTorque =
+            new Vector3(
+                Random.Range(
+                    -torqueAmount,
+                    torqueAmount
+                ),
+
+                Random.Range(
+                    -torqueAmount,
+                    torqueAmount
+                ),
+
+                Random.Range(
+                    -torqueAmount,
+                    torqueAmount
+                )
+            );
+
+
+        rb.AddTorque(
+            randomTorque,
+            ForceMode.Impulse
         );
 
-        rb.AddTorque(randomTorque, ForceMode.Impulse);
 
-        float lifetime = Random.Range(
-            Mathf.Max(0.05f, physicsLifetime - 0.2f),
-            physicsLifetime + 0.3f
+        float lifetime =
+            Random.Range(
+                Mathf.Max(
+                    0.05f,
+                    physicsLifetime -
+                    0.2f
+                ),
+
+                physicsLifetime +
+                0.3f
+            );
+
+
+        yield return new WaitForSeconds(
+            lifetime
         );
 
-        yield return new WaitForSeconds(lifetime);
 
-        Vector3 shrinkStartScale = transform.localScale;
+        Vector3 shrinkStartScale =
+            transform.localScale;
 
-        elapsed = 0f;
+
+        elapsed =
+            0f;
+
 
         while (elapsed < shrinkDuration)
         {
-            elapsed += Time.deltaTime;
+            elapsed +=
+                Time.deltaTime;
 
-            float t = shrinkDuration > 0f
-                ? Mathf.Clamp01(elapsed / shrinkDuration)
-                : 1f;
+
+            float t =
+                shrinkDuration > 0f
+                    ? Mathf.Clamp01(
+                        elapsed /
+                        shrinkDuration
+                    )
+                    : 1f;
+
 
             transform.localScale =
                 Vector3.Lerp(
@@ -296,8 +601,10 @@ public class KernelPiece : MonoBehaviour
                     t
                 );
 
+
             yield return null;
         }
+
 
         gameObject.SetActive(false);
     }
