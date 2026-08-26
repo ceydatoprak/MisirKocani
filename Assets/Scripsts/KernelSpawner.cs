@@ -89,6 +89,15 @@ public class KernelSpawner : MonoBehaviour
     [Tooltip("Acikken taneler kocanin daralma egimini takip edecek sekilde egilir; uclarda basamakli siluet olusmaz. Kocan egimi 0 oldugu yerlerde sonuc eski davranisla BIREBIR aynidir. Kapali = eski davranis.")]
     public bool alignToSurfaceSlope = false;
 
+    [Header("[YENI] Yukseklige Gore Katmanli Boyut (Elle Kontrol)")]
+    [Tooltip("Kocan boyunca esit araliklarla yerlestirilmis kac kontrol noktasi (katman) olacagini belirler. Kocanin gercek olculerinden BAGIMSIZDIR (scaleKernelsByRowRadius'un aksine); kullanicinin elle belirledigi bir boyut egrisidir. 1 = tum taneler ayni boyut (varsayilan).")]
+    [Min(1)]
+    public int sizeLayerCount = 1;
+    [Tooltip("Her kontrol noktasinin kernelScale uzerine ek carpani. Index 0 = en alt (t=0), son index = en ust (t=1). Aralarinda smoothstep ile yumusak gecis yapilir, katman sinirlari gorunmez. Uzunluk sizeLayerCount ile ayni tutulmalidir (Tane Onizleme tool'u bunu otomatik senkronlar).")]
+    public float[] sizeLayerScales = new float[] { 1f };
+    [Tooltip("Ayni kontrol noktalarinda (sizeLayerScales ile ayni t degerlerinde) hedef sutun/tane sayisi. Aralarinda ayni sekilde yumusak interpolasyon yapilip en yakin tam sayiya yuvarlanir. Boyutun buyudugu katmanlarda sayiyi azaltarak tanelerin birbirine girmesini (ustuste binmesini) onlemek icin kullanilir. Uzunluk sizeLayerCount ile ayni tutulmalidir.")]
+    public float[] sizeLayerColumnCounts = new float[] { 14f };
+
     [Header("[YENI] Editor")]
     [Tooltip("Acikken Inspector'da bir deger degistirdiginde sahne otomatik yeniden uretilir. Kapaliyken sag-tik > 'Taneleri Yeniden Uret' ile elle tetiklersin (eski davranis).")]
     public bool autoRebuildOnValidate = false;
@@ -236,6 +245,11 @@ public class KernelSpawner : MonoBehaviour
             {
                 rowColumnCount[row] = columns;
             }
+            // [YENI] Kullanicinin katman katman belirledigi elle tane sayisi (bkz.
+            // GetSizeLayerColumnCount), kocanin gercek olculerinden bagimsizdir. sizeLayerColumnCounts
+            // tek elemanliyken (varsayilan) yukaridaki degeri degistirmez.
+            float rowT = rows > 1 ? (float)row / (rows - 1) : 0.5f;
+            rowColumnCount[row] = GetSizeLayerColumnCount(rowT);
         }
         // [YENI] Jitter'i tekrarlanabilir yap: ayni seed -> ayni dizilim.
         // (On-gecisten SONRA cagrilir ki on-gecis rastgeleligi tuketmesin.)
@@ -275,6 +289,9 @@ public class KernelSpawner : MonoBehaviour
                 float radiusRatio = rowAverageRadius[row] / widestRowRadius;
                 rowScaleMultiplier = Mathf.Clamp(Mathf.Sqrt(radiusRatio), minimumRowScaleFactor, 1f);
             }
+            // [YENI] Kocanin gercek olculerinden bagimsiz, kullanicinin elle belirledigi
+            // asagidan-yukariya katman carpani (bkz. GetSizeLayerMultiplier).
+            rowScaleMultiplier *= GetSizeLayerMultiplier(t);
             for (int column = 0; column < rowColumns; column++)
             {
                 // [YENI] Jitter degerleri. Tum jitter alanlari 0 iken bu ifadeler 0 uretir
@@ -502,6 +519,38 @@ public class KernelSpawner : MonoBehaviour
                 return result;
         }
         return null;
+    }
+    // t: 0 = en alt satir, 1 = en ust satir. values, yukseklik boyunca esit araliklarla
+    // yerlestirilmis kontrol noktalaridir (index 0 -> t=0, son index -> t=1). Iki komsu
+    // kontrol noktasi arasinda smoothstep ile YUMUSAK gecis yapilir; boylece katman
+    // sinirlari gorunmez, sonuc tek parca/surekli bir egri gibi gorunur. sizeLayerScales
+    // (boyut) ve sizeLayerColumnCounts (tane sayisi) ayni mekanizmayi paylasir.
+    private static float GetInterpolatedLayerValue(float[] values, float t, float fallback)
+    {
+        if (values == null || values.Length == 0)
+            return fallback;
+        if (values.Length == 1)
+            return values[0];
+
+        float scaledT = Mathf.Clamp01(t) * (values.Length - 1);
+        int lowerIndex = Mathf.Clamp(Mathf.FloorToInt(scaledT), 0, values.Length - 2);
+        int upperIndex = lowerIndex + 1;
+        float localT = scaledT - lowerIndex;
+        float smoothLocalT = localT * localT * (3f - 2f * localT);
+        return Mathf.Lerp(values[lowerIndex], values[upperIndex], smoothLocalT);
+    }
+    private float GetSizeLayerMultiplier(float t)
+    {
+        return GetInterpolatedLayerValue(sizeLayerScales, t, 1f);
+    }
+    // Boyutun buyudugu katmanlarda sutun sayisini azaltarak tanelerin ayni cevre
+    // uzerinde birbirine girmesini (ustuste binmesini) onlemek icin kullanilir.
+    // 3..40 araligina sabitlenir; global 'columns' alanindan BAGIMSIZDIR, kullanici
+    // isterse katman bazinda columns'tan daha fazla/az tane belirleyebilir.
+    private int GetSizeLayerColumnCount(float t)
+    {
+        float interpolated = GetInterpolatedLayerValue(sizeLayerColumnCounts, t, columns);
+        return Mathf.Clamp(Mathf.RoundToInt(interpolated), 3, 40);
     }
     private void ClearPreviousRows()
     {
