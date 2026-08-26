@@ -34,6 +34,27 @@ public class CornPeelController : MonoBehaviour
     [Range(-1f, 1f)]
     public float kernelFacingDotThreshold = -0.35f;
 
+    // =====================================================
+    // TANE SESI PITCH ILERLEMESI
+    // =====================================================
+    // Sayac tek bir yerde (burada) tutulur; her KernelPiece kendi basina ayri bir
+    // ilerleme tutmaz. Boylece ayni kesintisiz surukleme sirasinda soyulan taneler
+    // (hangi KernelPiece olursa olsun) ortak, tutarli bir pitch dizisi paylasir.
+
+    [Header("Tane Sesi Pitch Ilerlemesi")]
+    [Tooltip("Kesintisiz suruklemenin ilk tanesinde kullanilan pitch (tok/normal).")]
+    public float kernelSoundBasePitch = 1f;
+
+    [Tooltip("Kesintisiz surukleme boyunca ulasilabilecek en tiz pitch. Cok tizlesmesin diye dusuk tutulur.")]
+    public float kernelSoundMaxPitch = 1.35f;
+
+    [Tooltip("Her GERCEKTEN soyulan tanede pitch'in ne kadar artacagi. Kucuk deger = daha uzun/yumusak yukselis.")]
+    public float kernelSoundPitchStep = 0.015f;
+
+    // Mevcut kesintisiz surukleme icinde bir sonraki soyulacak tanede kullanilacak pitch.
+    // Parmak/mouse birakildiginda veya yeni bir surukleme basladiginda kernelSoundBasePitch'e sifirlanir.
+    private float nextKernelSoundPitch;
+
     // Physics.RaycastNonAlloc icin sinif seviyesinde bir kez olusturulan, tekrar kullanilan tampon;
     // her dokunma/orneklemede yeni dizi/liste/LINQ allocation'i onler.
     private readonly RaycastHit[] raycastBuffer = new RaycastHit[16];
@@ -51,6 +72,15 @@ public class CornPeelController : MonoBehaviour
     private void Start()
     {
         rotateController = GetComponent<CornRotateController>();
+        nextKernelSoundPitch = kernelSoundBasePitch;
+    }
+
+
+    // Yeni bir kesintisiz surukleme baslarken (parmak/mouse asagi) veya
+    // bir surukleme birakildiginda cagrilir; pitch dizisini bastan baslatir.
+    private void ResetKernelSoundPitchProgression()
+    {
+        nextKernelSoundPitch = kernelSoundBasePitch;
     }
 
 
@@ -92,6 +122,9 @@ public class CornPeelController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             lastPointerPosition = Input.mousePosition;
+
+            // Yeni bir basis = yeni bir kesintisiz surukleme. Pitch dizisi bastan baslar.
+            ResetKernelSoundPitchProgression();
 
             // Tam alt�nda veya yak�n�nda tane varsa:
             // Bu hareket SOYMA hareketidir.
@@ -141,6 +174,9 @@ public class CornPeelController : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             currentMode = GestureMode.None;
+
+            // Birakildigi anda pitch ilerlemesi tamamen sifirlanir.
+            ResetKernelSoundPitchProgression();
         }
     }
 
@@ -156,6 +192,9 @@ public class CornPeelController : MonoBehaviour
         if (touch.phase == TouchPhase.Began)
         {
             lastPointerPosition = touch.position;
+
+            // Yeni bir dokunus = yeni bir kesintisiz surukleme. Pitch dizisi bastan baslar.
+            ResetKernelSoundPitchProgression();
 
             if (IsNearVisibleKernel(touch.position))
             {
@@ -203,6 +242,9 @@ public class CornPeelController : MonoBehaviour
             touch.phase == TouchPhase.Canceled)
         {
             currentMode = GestureMode.None;
+
+            // Parmak kaldirildigi anda pitch ilerlemesi tamamen sifirlanir.
+            ResetKernelSoundPitchProgression();
         }
     }
 
@@ -383,7 +425,7 @@ public class CornPeelController : MonoBehaviour
 
         if (centerKernel != null)
         {
-            centerKernel.Peel();
+            TryPeelKernelWithProgressivePitch(centerKernel);
         }
 
 
@@ -417,8 +459,29 @@ public class CornPeelController : MonoBehaviour
 
             if (kernel != null)
             {
-                kernel.Peel();
+                TryPeelKernelWithProgressivePitch(kernel);
             }
+        }
+    }
+
+
+    // Taneyi, mevcut kesintisiz suruklemenin bir sonraki pitch degeriyle soymayi dener.
+    // Pitch sayaci SADECE kernel.Peel(...) gercekten yeni bir taneyi soyduysa (true donduyse)
+    // ilerletilir; zaten soyulmus/no-op bir tane icin bosa tuketilmez. Boylece "soyulan her
+    // yeni tane" ile pitch artisi bire bir eslesir.
+    private void TryPeelKernelWithProgressivePitch(KernelPiece kernel)
+    {
+        float pitchForThisKernel = nextKernelSoundPitch;
+
+        bool actuallyPeeled = kernel.Peel(pitchForThisKernel);
+
+        if (actuallyPeeled)
+        {
+            nextKernelSoundPitch =
+                Mathf.Min(
+                    kernelSoundMaxPitch,
+                    nextKernelSoundPitch + kernelSoundPitchStep
+                );
         }
     }
 

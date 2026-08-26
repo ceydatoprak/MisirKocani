@@ -337,6 +337,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -902,6 +906,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -1036,6 +1044,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -2099,6 +2111,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -2533,6 +2549,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -2750,6 +2770,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -3581,6 +3605,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -3715,6 +3743,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -4546,6 +4578,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -5410,6 +5446,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -5892,6 +5932,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -6026,6 +6070,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -6276,6 +6324,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -6410,6 +6462,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -6959,6 +7015,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -7093,6 +7153,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -7592,6 +7656,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -8821,6 +8889,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -9370,6 +9442,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -9753,6 +9829,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -10053,6 +10133,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -10534,6 +10618,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -11478,6 +11566,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -11645,6 +11737,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -13064,6 +13160,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -13264,6 +13364,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -13398,6 +13502,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -13681,6 +13789,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -14263,6 +14375,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -14513,6 +14629,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -14647,6 +14767,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -14977,6 +15101,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -15111,6 +15239,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -15942,6 +16074,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -16076,6 +16212,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -16293,6 +16433,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -16510,6 +16654,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -17175,6 +17323,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -17309,6 +17461,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -17642,6 +17798,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -17859,6 +18019,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -18557,6 +18721,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -18857,6 +19025,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -18991,6 +19163,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -19669,6 +19845,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -20052,6 +20232,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -20501,6 +20685,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -20635,6 +20823,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -21051,6 +21243,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -21434,6 +21630,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -21842,6 +22042,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -21976,6 +22180,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -22668,6 +22876,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -24228,6 +24440,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -24445,6 +24661,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -24612,6 +24832,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -24746,6 +24970,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -25079,6 +25307,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -25329,6 +25561,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -25527,6 +25763,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -26405,6 +26645,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -27269,6 +27513,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -27569,6 +27817,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -27786,6 +28038,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -28082,6 +28338,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -28216,6 +28476,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -30028,6 +30292,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -30195,6 +30463,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -31424,6 +31696,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -31558,6 +31834,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -31891,6 +32171,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -32448,6 +32732,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -33063,6 +33351,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -33197,6 +33489,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -33729,6 +34025,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -34145,6 +34445,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -34395,6 +34699,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -34612,6 +34920,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -34895,6 +35207,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -35112,6 +35428,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -35661,6 +35981,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -36160,6 +36484,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -36908,6 +37236,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -37333,6 +37665,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -37815,6 +38151,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -38148,6 +38488,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -38942,6 +39286,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -39192,6 +39540,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -39492,6 +39844,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -39626,6 +39982,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -40424,6 +40784,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -40890,6 +41254,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -41190,6 +41558,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -41755,6 +42127,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -41972,6 +42348,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -42272,6 +42652,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -42539,6 +42923,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -43253,6 +43641,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -43503,6 +43895,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -44044,6 +44440,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -44178,6 +44578,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -44312,6 +44716,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -44446,6 +44854,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -44779,6 +45191,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -45269,6 +45685,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -45486,6 +45906,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -45703,6 +46127,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -46003,6 +46431,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -47094,6 +47526,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -47414,6 +47850,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -48029,6 +48469,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -48163,6 +48607,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -48446,6 +48894,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -49061,6 +49513,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -49228,6 +49684,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -49543,7 +50003,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: b27308feab5d5fd45b7522959bb0b933, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.7
+  m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -50323,6 +50783,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -50855,6 +51319,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -51719,6 +52187,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -52418,6 +52890,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -52635,6 +53111,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -52769,6 +53249,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -52903,6 +53387,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -53236,6 +53724,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -53934,6 +54426,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -54300,6 +54796,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -54882,6 +55382,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -55630,6 +56134,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -55764,6 +56272,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -55898,6 +56410,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -56264,6 +56780,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -56431,6 +56951,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -56731,6 +57255,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -57097,6 +57625,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -58259,6 +58791,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -58476,6 +59012,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -58610,6 +59150,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -59275,6 +59819,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -59409,6 +59957,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -59725,6 +60277,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -59942,6 +60498,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -60488,6 +61048,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -60622,6 +61186,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -61153,6 +61721,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -62100,6 +62672,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -62748,6 +63324,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -63330,6 +63910,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -63540,6 +64124,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -63757,6 +64345,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -64140,6 +64732,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -64307,6 +64903,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -64590,6 +65190,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -64724,6 +65328,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -65190,6 +65798,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -65739,6 +66351,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -66371,6 +66987,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -66671,6 +67291,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -66987,6 +67611,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -67800,6 +68428,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -67934,6 +68566,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -68549,6 +69185,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -68849,6 +69489,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -68983,6 +69627,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -69465,6 +70113,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -69798,6 +70450,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -70363,6 +71019,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -71525,6 +72185,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -72125,6 +72789,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -72342,6 +73010,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -72476,6 +73148,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -72610,6 +73286,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -73385,6 +74065,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -73635,6 +74319,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -73968,6 +74656,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -74500,6 +75192,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -75555,6 +76251,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -76676,6 +77376,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -76810,6 +77514,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -76944,6 +77652,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -77244,6 +77956,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -77544,6 +78260,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -78491,6 +79211,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -78791,6 +79515,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -78925,6 +79653,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -79059,6 +79791,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -79193,6 +79929,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -80771,6 +81511,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -80905,6 +81649,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -81039,6 +81787,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -81455,6 +82207,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -82369,6 +83125,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -82735,6 +83495,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -82952,6 +83716,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -83086,6 +83854,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -83220,6 +83992,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -83636,6 +84412,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -83886,6 +84666,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -84020,6 +84804,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -84154,6 +84942,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -84288,6 +85080,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -85281,6 +86077,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -85415,6 +86215,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -85549,6 +86353,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -85970,6 +86778,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -86302,6 +87114,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -86436,6 +87252,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -87208,6 +88028,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -87674,6 +88498,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -88040,6 +88868,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -88257,6 +89089,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -88673,6 +89509,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -89056,6 +89896,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -89721,6 +90565,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -90054,6 +90902,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -90342,6 +91194,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -90855,6 +91711,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -91404,6 +92264,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -91770,6 +92634,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -92619,6 +93487,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -93718,6 +94590,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -94133,6 +95009,9 @@ MonoBehaviour:
   peelDetectionRadius: 35
   kernelOcclusionTolerance: 0.35
   kernelFacingDotThreshold: -0.35
+  kernelSoundBasePitch: 1
+  kernelSoundMaxPitch: 1.35
+  kernelSoundPitchStep: 0.015
 --- !u!114 &2125262849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94643,6 +95522,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f41bc53cf24ed4983f0612e0540e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelPeelSound: {fileID: 0}
+  kernelSoundVolume: 0.8
+  kernelSoundMinInterval: 0.035
+  kernelSoundPitchVariation: 0.04
   enableHaptics: 1
   hapticDurationMilliseconds: 15
   hapticMinInterval: 0.06
@@ -94984,6 +95867,10 @@ PrefabInstance:
       propertyPath: popDuration
       value: 0.05
       objectReference: {fileID: 0}
+    - target: {fileID: 2456453217915139207, guid: 888bf0e252473ac43a6a7deb051fd844, type: 3}
+      propertyPath: kernelPeelSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 0c10b1ad98b013242bddc539c3bffbe4, type: 3}
     - target: {fileID: 2584048849143163370, guid: 888bf0e252473ac43a6a7deb051fd844, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.098

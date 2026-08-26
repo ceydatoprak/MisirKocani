@@ -15,9 +15,12 @@ public class KernelPiece : MonoBehaviour
     [Range(0.01f, 0.2f)]
     [SerializeField] private float kernelSoundMinInterval = 0.035f;
 
-    [Tooltip("Her tanede cok hafif farkli ton kullanarak sesi daha dogal yapar.")]
+    // Kucuk tutuldu: ana pitch yukselisini artik CornPeelController'daki surukleme
+    // ilerlemesi (Peel'e verilen pitchOverride) belirliyor. Bu deger sadece o pitch'in
+    // ustune cok hafif dogal bir titresim ekler.
+    [Tooltip("Her tanede, surukleme pitch'inin ustune eklenen cok hafif rastgele ton farki.")]
     [Range(0f, 0.2f)]
-    [SerializeField] private float kernelSoundPitchVariation = 0.04f;
+    [SerializeField] private float kernelSoundPitchVariation = 0.02f;
 
 
     [Header("Mobil Titresim")]
@@ -108,10 +111,16 @@ public class KernelPiece : MonoBehaviour
     }
 
 
-    public void Peel()
+    // pitchOverride >= 0 ise ses bu pitch etrafinda (+/- kernelSoundPitchVariation) calinir;
+    // bu, CornPeelController'in surukleme boyunca kademeli yukselttigi pitch degeridir.
+    // pitchOverride < 0 (varsayilan) verilirse eski rastgele-pitch davranisina dusulur.
+    // Donus degeri: bu cagrinin taneyi GERCEKTEN soyup soymadigi (zaten soyulmus bir taneye
+    // tekrar Peel() cagrilirsa false doner). CornPeelController, pitch ilerlemesini SADECE
+    // gercekten soyulan taneler icin bir adim ilerletmek amaciyla bu degeri kullanir.
+    public bool Peel(float pitchOverride = -1f)
     {
         if (isPeeled)
-            return;
+            return false;
 
         // Kilit hemen kapanir.
         // Ayni tane ikinci kez islenemez.
@@ -119,7 +128,7 @@ public class KernelPiece : MonoBehaviour
 
 
         // Tane ayrildigi anda ses.
-        TryPlayKernelSound();
+        TryPlayKernelSound(pitchOverride);
 
 
         // Yalnizca gercekten soyulan tane icin bir kez calisir.
@@ -164,10 +173,15 @@ public class KernelPiece : MonoBehaviour
         StartCoroutine(
             PopAndFall(outwardDirection)
         );
+
+        return true;
     }
 
 
-    private void TryPlayKernelSound()
+    // pitchOverride >= 0 ise surukleme ilerlemesinden gelen pitch merkez alinir (+/- kucuk
+    // dogal titresim). pitchOverride < 0 ise (Peel() parametresiz/eski gibi cagrilirsa) 1
+    // etrafinda eski rastgele-pitch davranisi kullanilir.
+    private void TryPlayKernelSound(float pitchOverride)
     {
         if (kernelPeelSound == null)
             return;
@@ -192,12 +206,19 @@ public class KernelPiece : MonoBehaviour
             Time.unscaledTime;
 
 
-        // Her tanede cok hafif ton farki.
+        float centerPitch =
+            pitchOverride >= 0f
+                ? pitchOverride
+                : 1f;
+
+
+        // Merkez pitch'in ustune cok hafif ton farki.
         // Ayni sesin surekli tekrar ettigi hissini azaltir.
         kernelAudioSource.pitch =
+            centerPitch +
             Random.Range(
-                1f - kernelSoundPitchVariation,
-                1f + kernelSoundPitchVariation
+                -kernelSoundPitchVariation,
+                kernelSoundPitchVariation
             );
 
 
