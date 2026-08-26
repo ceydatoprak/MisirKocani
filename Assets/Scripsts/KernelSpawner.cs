@@ -135,7 +135,7 @@ public class KernelSpawner : MonoBehaviour
         SpawnKernels();
     }
 #endif
-    private void SpawnKernels()
+    public void SpawnKernels()
     {
         if (kernelPrefab == null)
         {
