@@ -6,6 +6,11 @@ public class CornPeelController : MonoBehaviour
     private bool isCompleted = false;
 
     private int remainingKernels;
+    private int totalKernelsAtStart;
+
+    // Sahnede tek olmasi beklenir; Inspector'dan elle atamaya gerek kalmasin diye Start()'ta
+    // otomatik bulunur (bkz. FindProgressBar).
+    private PeelProgressBar progressBar;
 
     private Vector2 lastPointerPosition;
 
@@ -60,6 +65,7 @@ public class CornPeelController : MonoBehaviour
     private void Start()
     {
         nextKernelSoundPitch = kernelSoundBasePitch;
+        progressBar = FindObjectOfType<PeelProgressBar>();
     }
 
 
@@ -79,9 +85,15 @@ public class CornPeelController : MonoBehaviour
         // includeInactive: false -> pasif KernelTemplate sayilmaz, sadece aktif taneler sayilir.
         remainingKernels =
             GetComponentsInChildren<KernelPiece>(includeInactive: false).Length;
+        totalKernelsAtStart = remainingKernels;
 
         Debug.Log("M�s�r art�k soyulabilir!");
         Debug.Log("Toplam tane say�s�: " + remainingKernels);
+
+        if (progressBar != null)
+        {
+            progressBar.SetProgress(0f);
+        }
 
         // Misir, iki yaprak da acilip soyulabilir hale gelene kadar donmez;
         // ancak bu noktada kendi kendine donmeye baslar.
@@ -418,6 +430,14 @@ public class CornPeelController : MonoBehaviour
             "Kalan tane: " + remainingKernels
         );
 
+        if (progressBar != null && totalKernelsAtStart > 0)
+        {
+            float peeledRatio =
+                1f - (float)remainingKernels / totalKernelsAtStart;
+
+            progressBar.SetProgress(peeledRatio);
+        }
+
         if (remainingKernels <= 0)
         {
             CompletePeeling();
@@ -428,6 +448,12 @@ public class CornPeelController : MonoBehaviour
     private void CompletePeeling()
     {
         isCompleted = true;
+
+        // Yuvarlama hatalarindan bagimsiz, tamamlaninca cubuk kesinlikle tam dolu gorunsun.
+        if (progressBar != null)
+        {
+            progressBar.SetProgress(1f);
+        }
         canPeel = false;
 
         Debug.Log("Tüm mısır taneleri soyuldu!");
