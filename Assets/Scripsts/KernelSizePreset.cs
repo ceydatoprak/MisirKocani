@@ -9,8 +9,11 @@ public class KernelSizePreset : ScriptableObject
     public Vector3 kernelScale = new Vector3(0.17f, 0.17f, 0.17f);
     public Vector3 kernelScaleMultiplier = Vector3.one;
     public float kernelRadius = 1f;
+    public int rows = 12;
 
     public int sizeLayerCount = 1;
     public float[] sizeLayerScales = { 1f };
     public float[] sizeLayerColumnCounts = { 14f };
+    public float[] rowHeightMultipliers = new float[0];
+    public float[] rowWidthMultipliers = new float[0];
 }

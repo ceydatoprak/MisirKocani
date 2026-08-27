@@ -16,10 +16,13 @@ public class KernelPreviewWindow : EditorWindow
     private Vector3 kernelScale;
     private Vector3 kernelScaleMultiplier;
     private float kernelRadius = 1f;
+    private int rows = 12;
 
     private int sizeLayerCount = 1;
     private float[] sizeLayerScales = { 1f };
     private float[] sizeLayerColumnCounts = { 14f };
+    private float[] rowHeightMultipliers = new float[0];
+    private float[] rowWidthMultipliers = new float[0];
 
     private KernelSizePreset preset;
     private Vector2 scrollPosition;
@@ -66,9 +69,12 @@ public class KernelPreviewWindow : EditorWindow
         {
             kernelScale = spawner.kernelScale;
             kernelScaleMultiplier = spawner.kernelScaleMultiplier;
+            rows = Mathf.Max(1, spawner.rows);
             sizeLayerCount = Mathf.Max(1, spawner.sizeLayerCount);
             sizeLayerScales = SyncLayerArray(spawner.sizeLayerScales, sizeLayerCount, 1f);
             sizeLayerColumnCounts = SyncLayerArray(spawner.sizeLayerColumnCounts, sizeLayerCount, spawner.columns);
+            rowHeightMultipliers = SyncLayerArray(spawner.rowHeightMultipliers, rows, 1f);
+            rowWidthMultipliers = SyncLayerArray(spawner.rowWidthMultipliers, rows, 1f);
         }
         if (templateCollider != null)
         {
@@ -141,6 +147,73 @@ public class KernelPreviewWindow : EditorWindow
         kernelScale = EditorGUILayout.Vector3Field("Tane Olcegi", kernelScale);
         kernelScaleMultiplier = EditorGUILayout.Vector3Field("Olcek Carpani", kernelScaleMultiplier);
         kernelRadius = EditorGUILayout.Slider("Tane Yaricapi", kernelRadius, 0.01f, 2f);
+
+        EditorGUILayout.Space();
+        rows = Mathf.Max(1, EditorGUILayout.IntField("Dikey Satir Sayisi", rows));
+        EditorGUILayout.HelpBox(
+            "Kocanin dikeyde kac satir taneden olusacagini belirler (alttan usta). " +
+            "Taneyi kucultunce satirlar arasi bosluk artar; bunu artirarak bosluklari " +
+            "daha fazla satirla doldurabilirsin.",
+            MessageType.None);
+        rowHeightMultipliers = SyncLayerArray(rowHeightMultipliers, rows, 1f);
+
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField("Satir Bazli Elle Yukseklik (Y) Carpani (Alttan Usta)", EditorStyles.boldLabel);
+        EditorGUILayout.HelpBox(
+            "SADECE tanenin yuksekligini (Y ekseni) etkiler; genislik/derinlik (X/Z) degismez. " +
+            "Yukaridaki 'Katman' sistemi satirlar arasinda yumusak gecis yapar; burada ise HER " +
+            "satirin yuksekligini birbirinden bagimsiz, ayri ayri belirleyebilirsin (aralarinda " +
+            "yumusatma yoktur). 1 = degisiklik yok. Diger boyut carpanlarinin UZERINE eklenir.",
+            MessageType.None);
+
+        EditorGUI.indentLevel++;
+        for (int i = 0; i < rowHeightMultipliers.Length; i++)
+        {
+            string positionSuffix;
+            if (i == 0)
+                positionSuffix = " - En Alt";
+            else if (i == rowHeightMultipliers.Length - 1)
+                positionSuffix = " - En Ust";
+            else
+                positionSuffix = "";
+
+            rowHeightMultipliers[i] = EditorGUILayout.Slider(
+                "Satir " + i.ToString("D2") + positionSuffix,
+                rowHeightMultipliers[i],
+                0.05f,
+                2f);
+        }
+        EditorGUI.indentLevel--;
+
+        rowWidthMultipliers = SyncLayerArray(rowWidthMultipliers, rows, 1f);
+
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField("Satir Bazli Elle Genislik (X) Carpani (Alttan Usta)", EditorStyles.boldLabel);
+        EditorGUILayout.HelpBox(
+            "SADECE tanenin genisligini (X ekseni) etkiler; yukseklik/derinlik (Y/Z) degismez. " +
+            "Yukaridaki yukseklik ayariyla ayni mantik: satirlar arasinda yumusatma yoktur, her " +
+            "satirin genisligini birbirinden bagimsiz, ayri ayri belirleyebilirsin. 1 = degisiklik " +
+            "yok. Diger boyut carpanlarinin UZERINE eklenir.",
+            MessageType.None);
+
+        EditorGUI.indentLevel++;
+        for (int i = 0; i < rowWidthMultipliers.Length; i++)
+        {
+            string positionSuffix;
+            if (i == 0)
+                positionSuffix = " - En Alt";
+            else if (i == rowWidthMultipliers.Length - 1)
+                positionSuffix = " - En Ust";
+            else
+                positionSuffix = "";
+
+            rowWidthMultipliers[i] = EditorGUILayout.Slider(
+                "Satir " + i.ToString("D2") + positionSuffix,
+                rowWidthMultipliers[i],
+                0.05f,
+                2f);
+        }
+        EditorGUI.indentLevel--;
 
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Yukseklige Gore Katmanli Boyut ve Tane Sayisi (Alttan Usta)", EditorStyles.boldLabel);
@@ -265,9 +338,12 @@ public class KernelPreviewWindow : EditorWindow
         Undo.RecordObject(spawner, "Tane Olcegi/Yaricapi/Katman Ayarla");
         spawner.kernelScale = kernelScale;
         spawner.kernelScaleMultiplier = kernelScaleMultiplier;
+        spawner.rows = Mathf.Max(1, rows);
         spawner.sizeLayerCount = sizeLayerCount;
         spawner.sizeLayerScales = (float[])sizeLayerScales.Clone();
         spawner.sizeLayerColumnCounts = (float[])sizeLayerColumnCounts.Clone();
+        spawner.rowHeightMultipliers = (float[])rowHeightMultipliers.Clone();
+        spawner.rowWidthMultipliers = (float[])rowWidthMultipliers.Clone();
 
         Undo.RecordObject(templateCollider, "Tane Yaricapi Ayarla");
         templateCollider.radius = kernelRadius;
@@ -316,9 +392,12 @@ public class KernelPreviewWindow : EditorWindow
         preset.kernelScale = kernelScale;
         preset.kernelScaleMultiplier = kernelScaleMultiplier;
         preset.kernelRadius = kernelRadius;
+        preset.rows = rows;
         preset.sizeLayerCount = sizeLayerCount;
         preset.sizeLayerScales = (float[])sizeLayerScales.Clone();
         preset.sizeLayerColumnCounts = (float[])sizeLayerColumnCounts.Clone();
+        preset.rowHeightMultipliers = (float[])rowHeightMultipliers.Clone();
+        preset.rowWidthMultipliers = (float[])rowWidthMultipliers.Clone();
 
         EditorUtility.SetDirty(preset);
         AssetDatabase.SaveAssets();
@@ -336,9 +415,12 @@ public class KernelPreviewWindow : EditorWindow
         kernelScale = preset.kernelScale;
         kernelScaleMultiplier = preset.kernelScaleMultiplier;
         kernelRadius = preset.kernelRadius;
+        rows = Mathf.Max(1, preset.rows);
         sizeLayerCount = Mathf.Max(1, preset.sizeLayerCount);
         sizeLayerScales = SyncLayerArray(preset.sizeLayerScales, sizeLayerCount, 1f);
         sizeLayerColumnCounts = SyncLayerArray(preset.sizeLayerColumnCounts, sizeLayerCount, spawner.columns);
+        rowHeightMultipliers = SyncLayerArray(preset.rowHeightMultipliers, rows, 1f);
+        rowWidthMultipliers = SyncLayerArray(preset.rowWidthMultipliers, rows, 1f);
         Repaint();
     }
 }

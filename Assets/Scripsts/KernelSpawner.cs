@@ -98,6 +98,14 @@ public class KernelSpawner : MonoBehaviour
     [Tooltip("Ayni kontrol noktalarinda (sizeLayerScales ile ayni t degerlerinde) hedef sutun/tane sayisi. Aralarinda ayni sekilde yumusak interpolasyon yapilip en yakin tam sayiya yuvarlanir. Boyutun buyudugu katmanlarda sayiyi azaltarak tanelerin birbirine girmesini (ustuste binmesini) onlemek icin kullanilir. Uzunluk sizeLayerCount ile ayni tutulmalidir.")]
     public float[] sizeLayerColumnCounts = new float[] { 14f };
 
+    [Header("[YENI] Satir Bazli Elle Yukseklik (Y Ekseni, Interpolasyonsuz)")]
+    [Tooltip("Tanenin SADECE YUKSEKLIGINI (Y ekseni; genislik/derinlik olan X/Z'yi etkilemez) satir satir ayarlar. sizeLayerScales'in aksine, satirlar arasinda YUMUSATMA (smoothstep) yapilmaz: her satirin kendi carpani aynen uygulanir. Index 0 = en alt satir, son index = en ust satir. Uzunluk 'rows' ile ayni tutulmalidir (Tane Onizleme tool'u bunu otomatik senkronlar). Bos birakilirsa veya bir satir icin deger eksikse/0 veya altindaysa o satir icin 1 (degisiklik yok) kullanilir. Diger boyut carpanlarinin UZERINE eklenir.")]
+    public float[] rowHeightMultipliers = new float[0];
+
+    [Header("[YENI] Satir Bazli Elle Genislik (X Ekseni, Interpolasyonsuz)")]
+    [Tooltip("Tanenin SADECE GENISLIGINI (X ekseni; yukseklik/derinlik olan Y/Z'yi etkilemez) satir satir ayarlar. rowHeightMultipliers ile ayni mantik: satirlar arasinda YUMUSATMA yapilmaz, her satirin kendi carpani aynen uygulanir. Index 0 = en alt satir, son index = en ust satir. Uzunluk 'rows' ile ayni tutulmalidir (Tane Onizleme tool'u bunu otomatik senkronlar). Bos birakilirsa veya bir satir icin deger eksikse/0 veya altindaysa o satir icin 1 (degisiklik yok) kullanilir. Diger boyut carpanlarinin UZERINE eklenir.")]
+    public float[] rowWidthMultipliers = new float[0];
+
     [Header("[YENI] Editor")]
     [Tooltip("Acikken Inspector'da bir deger degistirdiginde sahne otomatik yeniden uretilir. Kapaliyken sag-tik > 'Taneleri Yeniden Uret' ile elle tetiklersin (eski davranis).")]
     public bool autoRebuildOnValidate = false;
@@ -292,6 +300,13 @@ public class KernelSpawner : MonoBehaviour
             // [YENI] Kocanin gercek olculerinden bagimsiz, kullanicinin elle belirledigi
             // asagidan-yukariya katman carpani (bkz. GetSizeLayerMultiplier).
             rowScaleMultiplier *= GetSizeLayerMultiplier(t);
+            // [YENI] Satir bazli elle YUKSEKLIK (Y ekseni) carpani: X/Z'yi etkilemez, sadece
+            // tanenin dikey (Y) boyutunu satir satir ayarlar (bkz. asagidaki localScale atamasi).
+            // Kaydirma acisi sadece Y ekseni etrafinda oldugundan (Quaternion.Euler(0, angle, 0)),
+            // yerel Y ekseni her zaman dunya Y'sine (yukari/asagi) karsilik gelir.
+            float rowHeightMultiplier = GetRowHeightMultiplier(row);
+            // [YENI] Satir bazli elle GENISLIK (X ekseni) carpani: Y/Z'yi etkilemez.
+            float rowWidthMultiplier = GetRowWidthMultiplier(row);
             for (int column = 0; column < rowColumns; column++)
             {
                 // [YENI] Jitter degerleri. Tum jitter alanlari 0 iken bu ifadeler 0 uretir
@@ -364,8 +379,15 @@ public class KernelSpawner : MonoBehaviour
 
                 // [YENI] kernelScaleMultiplier (1,1,1) ve scaleJitter 0 iken sonuc eski satirla ayni:
                 // kernelScale * rowScaleMultiplier
-                newKernel.transform.localScale =
+                Vector3 finalScale =
                     Vector3.Scale(kernelScale, kernelScaleMultiplier) * rowScaleMultiplier * scaleJitterFactor;
+
+                // [YENI] Satir bazli yukseklik/genislik carpanlari SADECE kendi eksenlerine uygulanir
+                // (Y <-> X birbirini etkilemez); ikisi de 1 iken sonuc yukaridaki finalScale ile birebir ayni.
+                finalScale.y *= rowHeightMultiplier;
+                finalScale.x *= rowWidthMultiplier;
+
+                newKernel.transform.localScale = finalScale;
 
                 // Sablon (kernelPrefab) pasifse klonlar da pasif dogar; aktif hale getir.
                 newKernel.SetActive(true);
@@ -542,6 +564,25 @@ public class KernelSpawner : MonoBehaviour
     private float GetSizeLayerMultiplier(float t)
     {
         return GetInterpolatedLayerValue(sizeLayerScales, t, 1f);
+    }
+    // Katmanlardan (GetSizeLayerMultiplier) farkli olarak interpolasyon YAPMAZ: her satirin
+    // kendi elle girilen degeri aynen kullanilir. Sadece Y eksenine (yukseklik) uygulanir,
+    // X/Z'ye dokunmaz. Dizi kisa/bos ya da deger 0 veya altindaysa (henuz elle ayarlanmamis
+    // satirlar icin) 1 (degisiklik yok) doner.
+    private float GetRowHeightMultiplier(int row)
+    {
+        if (rowHeightMultipliers == null || row < 0 || row >= rowHeightMultipliers.Length)
+            return 1f;
+        float value = rowHeightMultipliers[row];
+        return value > 0f ? value : 1f;
+    }
+    // GetRowHeightMultiplier ile ayni mantik, ama X eksenine (genislik) uygulanir.
+    private float GetRowWidthMultiplier(int row)
+    {
+        if (rowWidthMultipliers == null || row < 0 || row >= rowWidthMultipliers.Length)
+            return 1f;
+        float value = rowWidthMultipliers[row];
+        return value > 0f ? value : 1f;
     }
     // Boyutun buyudugu katmanlarda sutun sayisini azaltarak tanelerin ayni cevre
     // uzerinde birbirine girmesini (ustuste binmesini) onlemek icin kullanilir.

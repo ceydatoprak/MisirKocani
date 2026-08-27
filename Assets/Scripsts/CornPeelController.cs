@@ -9,8 +9,6 @@ public class CornPeelController : MonoBehaviour
 
     private Vector2 lastPointerPosition;
 
-    private CornRotateController rotateController;
-
     // Tanelerin aras�ndaki k���k bo�luklar� tolere eder.
     // Inspector'dan de�i�tirebilirsin.
     public float peelDetectionRadius = 45f;
@@ -59,19 +57,8 @@ public class CornPeelController : MonoBehaviour
     // her dokunma/orneklemede yeni dizi/liste/LINQ allocation'i onler.
     private readonly RaycastHit[] raycastBuffer = new RaycastHit[16];
 
-    private enum GestureMode
-    {
-        None,
-        Peeling,
-        Rotating
-    }
-
-    private GestureMode currentMode = GestureMode.None;
-
-
     private void Start()
     {
-        rotateController = GetComponent<CornRotateController>();
         nextKernelSoundPitch = kernelSoundBasePitch;
     }
 
@@ -95,6 +82,16 @@ public class CornPeelController : MonoBehaviour
 
         Debug.Log("M�s�r art�k soyulabilir!");
         Debug.Log("Toplam tane say�s�: " + remainingKernels);
+
+        // Misir, iki yaprak da acilip soyulabilir hale gelene kadar donmez;
+        // ancak bu noktada kendi kendine donmeye baslar.
+        CornRotateController rotateController =
+            GetComponent<CornRotateController>();
+
+        if (rotateController != null)
+        {
+            rotateController.StartRotating();
+        }
     }
 
 
@@ -118,7 +115,8 @@ public class CornPeelController : MonoBehaviour
 
     private void HandleMouse()
     {
-        // �lk t�klama
+        // �lk t�klama: nereye bas�l�rsa bas�ls�n (bo� alan dahil) suruklemeye baslar.
+        // Parmak/mouse hangi noktadan gecerse gecsin, altindaki tane hemen soyulur.
         if (Input.GetMouseButtonDown(0))
         {
             lastPointerPosition = Input.mousePosition;
@@ -126,20 +124,7 @@ public class CornPeelController : MonoBehaviour
             // Yeni bir basis = yeni bir kesintisiz surukleme. Pitch dizisi bastan baslar.
             ResetKernelSoundPitchProgression();
 
-            // Tam alt�nda veya yak�n�nda tane varsa:
-            // Bu hareket SOYMA hareketidir.
-            if (IsNearVisibleKernel(Input.mousePosition))
-            {
-                currentMode = GestureMode.Peeling;
-
-                PeelNearPoint(Input.mousePosition);
-            }
-            else
-            {
-                // Ger�ekten bo� bir b�lgedeysek:
-                // Bu hareket D�ND�RME hareketidir.
-                currentMode = GestureMode.Rotating;
-            }
+            PeelNearPoint(Input.mousePosition);
         }
 
 
@@ -148,23 +133,10 @@ public class CornPeelController : MonoBehaviour
         {
             Vector2 currentPosition = Input.mousePosition;
 
-            if (currentMode == GestureMode.Peeling)
-            {
-                PeelBetweenPoints(
-                    lastPointerPosition,
-                    currentPosition
-                );
-            }
-            else if (currentMode == GestureMode.Rotating)
-            {
-                float difference =
-                    currentPosition.x - lastPointerPosition.x;
-
-                if (rotateController != null)
-                {
-                    rotateController.Rotate(difference);
-                }
-            }
+            PeelBetweenPoints(
+                lastPointerPosition,
+                currentPosition
+            );
 
             lastPointerPosition = currentPosition;
         }
@@ -173,8 +145,6 @@ public class CornPeelController : MonoBehaviour
         // Mouse b�rak�ld�
         if (Input.GetMouseButtonUp(0))
         {
-            currentMode = GestureMode.None;
-
             // Birakildigi anda pitch ilerlemesi tamamen sifirlanir.
             ResetKernelSoundPitchProgression();
         }
@@ -196,43 +166,22 @@ public class CornPeelController : MonoBehaviour
             // Yeni bir dokunus = yeni bir kesintisiz surukleme. Pitch dizisi bastan baslar.
             ResetKernelSoundPitchProgression();
 
-            if (IsNearVisibleKernel(touch.position))
-            {
-                currentMode = GestureMode.Peeling;
-
-                PeelNearPoint(touch.position);
-            }
-            else
-            {
-                currentMode = GestureMode.Rotating;
-            }
+            // Ekranin neresine dokunulursa dokunulsun (bos alan dahil) suruklemeye baslar.
+            PeelNearPoint(touch.position);
         }
 
 
         // Moved VE Stationary (parmak basiliyken kisaca durdugunda) ayni sekilde islenir.
-        // Boylece parmak kaldirilmadigi surece dokulme/dondurme kesintiye ugramaz.
+        // Boylece parmak kaldirilmadigi surece dokulme kesintiye ugramaz.
         if (touch.phase == TouchPhase.Moved ||
             touch.phase == TouchPhase.Stationary)
         {
             Vector2 currentPosition = touch.position;
 
-            if (currentMode == GestureMode.Peeling)
-            {
-                PeelBetweenPoints(
-                    lastPointerPosition,
-                    currentPosition
-                );
-            }
-            else if (currentMode == GestureMode.Rotating)
-            {
-                float difference =
-                    currentPosition.x - lastPointerPosition.x;
-
-                if (rotateController != null)
-                {
-                    rotateController.Rotate(difference);
-                }
-            }
+            PeelBetweenPoints(
+                lastPointerPosition,
+                currentPosition
+            );
 
             lastPointerPosition = currentPosition;
         }
@@ -241,68 +190,9 @@ public class CornPeelController : MonoBehaviour
         if (touch.phase == TouchPhase.Ended ||
             touch.phase == TouchPhase.Canceled)
         {
-            currentMode = GestureMode.None;
-
             // Parmak kaldirildigi anda pitch ilerlemesi tamamen sifirlanir.
             ResetKernelSoundPitchProgression();
         }
-    }
-
-
-    // =====================================================
-    // BU NOKTANIN YAKININDA G�R�NEN TANE VAR MI?
-    // =====================================================
-
-    private bool IsNearVisibleKernel(Vector2 screenPoint)
-    {
-        // �nce tam bast���m�z noktaya bak.
-        if (GetVisibleKernelAtPoint(screenPoint) != null)
-        {
-            return true;
-        }
-
-        // Sonra �evresine bak.
-        Vector2[] offsets =
-        {
-            new Vector2(peelDetectionRadius, 0f),
-            new Vector2(-peelDetectionRadius, 0f),
-
-            new Vector2(0f, peelDetectionRadius),
-            new Vector2(0f, -peelDetectionRadius),
-
-            new Vector2(
-                peelDetectionRadius,
-                peelDetectionRadius
-            ),
-
-            new Vector2(
-                -peelDetectionRadius,
-                peelDetectionRadius
-            ),
-
-            new Vector2(
-                peelDetectionRadius,
-                -peelDetectionRadius
-            ),
-
-            new Vector2(
-                -peelDetectionRadius,
-                -peelDetectionRadius
-            )
-        };
-
-
-        foreach (Vector2 offset in offsets)
-        {
-            if (GetVisibleKernelAtPoint(
-                    screenPoint + offset
-                ) != null)
-            {
-                return true;
-            }
-        }
-
-        return false;
     }
 
 
@@ -433,7 +323,7 @@ public class CornPeelController : MonoBehaviour
         // Kosegen yonler de eklendi: yan acidan gorunen, ekran uzayinda dar/egik
         // duran taneler sadece dikey/yatay orneklemeyle atlanmasin diye.
         float smallRadius =
-            peelDetectionRadius * 0.5f;
+            peelDetectionRadius * 0.30f;
 
         Vector2[] offsets =
         {
@@ -500,7 +390,7 @@ public class CornPeelController : MonoBehaviour
 
         int steps = Mathf.Max(
             1,
-            Mathf.CeilToInt(distance / 8f)
+            Mathf.CeilToInt(distance / 15f)
         );
 
 
@@ -539,7 +429,6 @@ public class CornPeelController : MonoBehaviour
     {
         isCompleted = true;
         canPeel = false;
-        currentMode = GestureMode.None;
 
         Debug.Log("Tüm mısır taneleri soyuldu!");
     }

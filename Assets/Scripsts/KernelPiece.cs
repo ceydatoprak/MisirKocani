@@ -43,19 +43,30 @@ public class KernelPiece : MonoBehaviour
     [Tooltip("Pop fazinda tanenin ulasacagi olcek carpani (1 = degisim yok).")]
     public float popScale = 1.15f;
 
+    // Sifir tutulur: disariya/kameraya dogru pozisyon kaymasi "ekrana dogru geliyor" hissi
+    // yaratiyordu. "Yerinden cikma" hissi zaten yukaridaki olcek (popScale) buyumesiyle
+    // veriliyor; pozisyon kaymasina gerek yok. Inspector'dan istenirse tekrar acilabilir.
+    [Tooltip("Pop fazinda tanenin disariya kayacagi kucuk mesafe (world birim). Varsayilan 0: sadece olcek buyur, pozisyon kaymaz (ekrana dogru gelmesin diye).")]
+    public float popForwardDistance = 0f;
 
+
+    // Eskiden yuksekti (1.2 / 0.8) ve taneler firlama hissi verecek kadar uzaga/yukari
+    // savruluyordu ("zipliyor" gibi goruniyordu). Artik taneler sicramadan, dokulur gibi
+    // hafif bir disariya kayisla dogrudan asagi dusuyor.
     [Header("Firlama Hizi")]
-    [Tooltip("Tanenin kocan merkezinden disariya dogru firlama hizi.")]
-    public float outwardVelocity = 1.2f;
+    [Tooltip("Tanenin kocan merkezinden disariya dogru dokulme hizi (dusuk tutulur, zipmasin).")]
+    public float outwardVelocity = 0.15f;
 
-    [Tooltip("Tanenin yukari dogru firlama hizi.")]
-    public float upwardVelocity = 0.8f;
+    [Tooltip("Tanenin yukari dogru baslangic hizi (0 = yukari zipmadan dogrudan dusme).")]
+    public float upwardVelocity = 0f;
 
-    [Tooltip("Disari/yukari hizina eklenen, kocan cevresine teget yondeki rastgele yana sapma miktari.")]
-    public float sidewaysRandomness = 0.3f;
+    [Tooltip("Disari hizina eklenen, kocan cevresine teget yondeki rastgele yana sapma miktari.")]
+    public float sidewaysRandomness = 0.05f;
 
-    [Tooltip("Dususte dogal gorunmesi icin uygulanan rastgele tork miktari.")]
-    public float torqueAmount = 1.5f;
+    // Bu deger artik bir "tork/impulse" degil, DOGRUDAN acisal hiz (radyan/saniye).
+    // Kutleden/ataletten bagimsizdir; kucuk degerler gercekten yavas/nazik donus verir.
+    [Tooltip("Dususte tanenin donecegi maksimum acisal hiz (radyan/saniye, eksen basina). Kucuk tutulur, cilginca donmesin.")]
+    public float torqueAmount = 0.5f;
 
 
     [Header("Fizik Omru")]
@@ -155,6 +166,17 @@ public class KernelPiece : MonoBehaviour
             ComputeOutwardDirection(controller);
 
 
+        // Kocan govdesinin (CornBody) CapsuleCollider'i: tane hala buna
+        // temas/gomulu haldeyken Rigidbody eklenirse, PhysX ikisini ayirmak icin
+        // ani bir itme (depenetration) uygular. Bu itme, tanenin "zipliyor" ve
+        // kameraya dogru firliyor gibi gorunmesinin asil sebebidir. PopAndFall
+        // icinde Physics.IgnoreCollision ile bu temas tamamen devre disi birakilir.
+        Collider cobCollider =
+            controller != null
+                ? controller.GetComponent<CapsuleCollider>()
+                : null;
+
+
         int ignoreRaycastLayer =
             LayerMask.NameToLayer(
                 "Ignore Raycast"
@@ -171,7 +193,7 @@ public class KernelPiece : MonoBehaviour
 
 
         StartCoroutine(
-            PopAndFall(outwardDirection)
+            PopAndFall(outwardDirection, cobCollider)
         );
 
         return true;
@@ -426,7 +448,8 @@ public class KernelPiece : MonoBehaviour
 
 
     private IEnumerator PopAndFall(
-        Vector3 outwardDirection
+        Vector3 outwardDirection,
+        Collider cobCollider
     )
     {
         Vector3 startScale =
@@ -436,6 +459,19 @@ public class KernelPiece : MonoBehaviour
         Vector3 poppedScale =
             startScale *
             popScale;
+
+
+        // popForwardDistance varsayilan olarak 0'dir; pop fazinda sadece olcek
+        // buyur, pozisyon kaymaz. Asil dusme (yer cekimi) bu fazdan SONRA,
+        // asagidaki Rigidbody devreye girince baslar.
+        Vector3 startPosition =
+            transform.position;
+
+
+        Vector3 poppedPosition =
+            startPosition +
+            outwardDirection *
+            popForwardDistance;
 
 
         float elapsed =
@@ -465,12 +501,24 @@ public class KernelPiece : MonoBehaviour
                 );
 
 
+            transform.position =
+                Vector3.Lerp(
+                    startPosition,
+                    poppedPosition,
+                    t
+                );
+
+
             yield return null;
         }
 
 
         transform.localScale =
             poppedScale;
+
+
+        transform.position =
+            poppedPosition;
 
 
         transform.SetParent(
@@ -494,6 +542,37 @@ public class KernelPiece : MonoBehaviour
 
         rb.angularDrag =
             rigidbodyAngularDrag;
+
+
+        // Tane hala kocan govdesine (CornBody) VEYA komsu, henuz soyulmamis
+        // baska tanelere temas/gomulu haldeyken Rigidbody eklenmis olabilir.
+        // Ignore-collision tek basina yeterli degil: kocanin uzerinde onlarca
+        // komsu tane var, hepsiyle tek tek ugrasmak yerine, dusen tanenin
+        // kendi collider'ini TRIGGER yapiyoruz. Boylece PhysX hicbir seyle
+        // (kocan, komsu taneler, baska dusen taneler) fiziksel cakisma/itme
+        // cozumlemesi yapmaz; Rigidbody yine de yer cekimi + verdigimiz
+        // hiz/tork ile normal sekilde hareket eder, sadece "sicratan" itmeler
+        // devre disi kalir. Tane zaten kisa sure sonra shrink olup pasif
+        // hale geliyor, bu yuzden gercek fiziksel carpisma/durma gerekmiyor.
+        Collider kernelCollider =
+            GetComponent<Collider>();
+
+
+        if (kernelCollider != null)
+        {
+            kernelCollider.isTrigger =
+                true;
+        }
+
+
+        if (kernelCollider != null && cobCollider != null)
+        {
+            Physics.IgnoreCollision(
+                kernelCollider,
+                cobCollider,
+                true
+            );
+        }
 
 
         rb.useGravity =
@@ -520,8 +599,8 @@ public class KernelPiece : MonoBehaviour
             (
                 outwardVelocity +
                 Random.Range(
-                    -0.15f,
-                    0.15f
+                    -0.03f,
+                    0.03f
                 )
             )
 
@@ -531,8 +610,8 @@ public class KernelPiece : MonoBehaviour
             (
                 upwardVelocity +
                 Random.Range(
-                    -0.1f,
-                    0.1f
+                    -0.03f,
+                    0.03f
                 )
             )
 
@@ -549,7 +628,15 @@ public class KernelPiece : MonoBehaviour
             launchVelocity;
 
 
-        Vector3 randomTorque =
+        // ONEMLI: AddTorque(..., ForceMode.Impulse) KULLANILMIYOR. Impulse'un actual
+        // acisal hiza etkisi kutlenin atalet momentiyle (mass/boyuta bagli, cok kucuk
+        // bir SphereCollider icin I neredeyse sifira yakin) ters orantili; bu tanecikler
+        // kadar kucuk/hafif bir Rigidbody'de (rigidbodyMass ~0.05) ayni impulse degeri
+        // saniyede binlerce radyanlik bir donme hizina karsilik gelebiliyordu - taneler
+        // dususte cilgin gibi firil firil donerek "zipliyor/sicriyor" gibi goruntu
+        // veriyordu. Acisal hizi DOGRUDAN atamak, kutle/atalet momentinden tamamen
+        // bagimsiz, ongorulebilir (radyan/saniye) bir sonuc verir.
+        Vector3 randomAngularVelocity =
             new Vector3(
                 Random.Range(
                     -torqueAmount,
@@ -568,10 +655,8 @@ public class KernelPiece : MonoBehaviour
             );
 
 
-        rb.AddTorque(
-            randomTorque,
-            ForceMode.Impulse
-        );
+        rb.angularVelocity =
+            randomAngularVelocity;
 
 
         float lifetime =
