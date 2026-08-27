@@ -5,8 +5,11 @@ using System.Collections;
 public class LeafController : MonoBehaviour
 {
     [Header("Animasyon Ayarlari")]
-    [Tooltip("Dokunma sonrasi acilma animasyonunun suresi (saniye).")]
-    [SerializeField] private float snapAnimationDuration = 0.4f;
+    // Eskiden 0.4s idi; acilma neredeyse aninda oluyor, dokunulunca "kendiliginden acilmis"
+    // gibi hissettiriyordu. Simdi biraz daha yavas ama abartmadan (0.9s), acilma hareketi
+    // goz ile takip edilebiliyor.
+    [Tooltip("Dokunma sonrasi acilma animasyonunun suresi (saniye). Cok hizli olursa acilma aninda/otomatik gibi hissettirir; cok yavas olursa da agir kalir.")]
+    [SerializeField] private float snapAnimationDuration = 0.9f;
 
 
     [Header("Acik Pozisyon / Rotasyon")]
@@ -46,20 +49,35 @@ public class LeafController : MonoBehaviour
     [Tooltip("Yapragin kaybolmadan once kuculme suresi.")]
     [SerializeField] private float leafShrinkDuration = 0.4f;
 
-    [Tooltip("Yapragin asagi dogru baslangic hizi.")]
-    [SerializeField] private float leafDownwardVelocity = 0.3f;
+    // Dususun ilk anindaki "birakma" hizi dusuruldu; asil yavas/zarif his artik
+    // yuksek hava direnci (leafRigidbodyDrag) ve asagidaki yanal salinimdan geliyor.
+    [Tooltip("Yapragin asagi dogru baslangic hizi (dusuk tutulur; asil yavaslik hava direncinden gelir).")]
+    [SerializeField] private float leafDownwardVelocity = 0.12f;
 
     [Tooltip("Yapragin kocandan disari dogru hareket hizi.")]
     [SerializeField] private float leafOutwardVelocity = 0.15f;
 
-    [Tooltip("Duserken uygulanacak rastgele donus miktari.")]
-    [SerializeField] private float leafTorqueAmount = 0.8f;
+    // ONEMLI: Bu deger artik bir impulse degil, DOGRUDAN acisal hiz (radyan/saniye).
+    // Eskiden AddTorque(..., ForceMode.Impulse) kullaniliyordu; kucuk/hafif bir Rigidbody'de
+    // (leafRigidbodyMass ~0.25) impulse'un acisal hiza etkisi atalet momentiyle ters orantili
+    // oldugundan, ayni deger cilgin gibi hizli bir donuse yol acabiliyordu (mÄ±sÄ±r tanelerinde
+    // aynen yasanan sorunla ayni sebep). Dogrudan atama, kutleden bagimsiz, ongorulebilir bir
+    // yavas/zarif donus verir.
+    [Tooltip("Duserken yapragin donecegi maksimum acisal hiz (radyan/saniye, eksen basina). Kucuk tutulur, cilginca donmesin.")]
+    [SerializeField] private float leafTorqueAmount = 1.2f;
 
     [Tooltip("Yapraga runtime sirasinda eklenecek Rigidbody kutlesi.")]
     [SerializeField] private float leafRigidbodyMass = 0.25f;
 
     [Tooltip("Yapragin hava direnci (yuksek deger = daha yavas/zarif dusus).")]
-    [SerializeField] private float leafRigidbodyDrag = 1.8f;
+    [SerializeField] private float leafRigidbodyDrag = 2.6f;
+
+    [Header("Suzulme (Yanal Salinim)")]
+    [Tooltip("Duserken yapragin sag-sola salinarak suzulmesini saglayan yanal kuvvetin genligi. 0 = kapali (duz dusus).")]
+    [SerializeField] private float leafSwayForce = 0.35f;
+
+    [Tooltip("Yanal salinimin saniyedeki periyot sikligi. Dusuk deger = yavas/genis salinim.")]
+    [SerializeField] private float leafSwayFrequency = 1.4f;
 
     [Tooltip("Yapragin donus direnci.")]
     [SerializeField] private float leafRigidbodyAngularDrag = 1.2f;
@@ -102,6 +120,15 @@ public class LeafController : MonoBehaviour
     private Coroutine snapRoutine;
 
 
+    // Editor'de Play tusuna tiklamak da bir "mouse down" olayidir; bu tiklama bazen
+    // Play modunun ILK karesinde Input.GetMouseButtonDown(0) olarak algilanip, imlecin
+    // o an ustunde bulundugu yapragin - istemeden - aninda acilmasina yol aciyordu
+    // ("Play'e basar basmaz yaprak dusuyor" sikayeti). Kisa bir baslangic gecikmesi
+    // boyunca dokunma/tiklama girdisi yok sayilarak bu sahte ilk kare tiklamasi elenir.
+    private const float InputIgnoreDuration = 0.2f;
+    private float inputReadyTime;
+
+
     public bool IsOpen => isOpen;
 
     private static bool allLeavesOpenedMessagePrinted = false;
@@ -117,20 +144,25 @@ public class LeafController : MonoBehaviour
         leafCollider = GetComponent<Collider>();
 
 
-        // Inspector'dan atanmadýysa ayný objede AudioSource ara.
+        inputReadyTime =
+            Time.unscaledTime +
+            InputIgnoreDuration;
+
+
+        // Inspector'dan atanmadï¿½ysa aynï¿½ objede AudioSource ara.
         if (leafAudioSource == null)
         {
             leafAudioSource = GetComponent<AudioSource>();
         }
 
 
-        // AudioSource bulunduysa güvenli baþlangýç ayarlarý.
+        // AudioSource bulunduysa gï¿½venli baï¿½langï¿½ï¿½ ayarlarï¿½.
         if (leafAudioSource != null)
         {
             leafAudioSource.playOnAwake = false;
             leafAudioSource.loop = false;
 
-            // Ses yapraðýn kameraya uzaklýðýna göre kaybolmasýn.
+            // Ses yapraï¿½ï¿½n kameraya uzaklï¿½ï¿½ï¿½na gï¿½re kaybolmasï¿½n.
             leafAudioSource.spatialBlend = 0f;
         }
 
@@ -364,7 +396,7 @@ public class LeafController : MonoBehaviour
             Mathf.Clamp01(progress);
 
 
-        // Klip atanmýþsa yapay pivot hareketi yerine
+        // Klip atanmï¿½ï¿½sa yapay pivot hareketi yerine
         // animasyonun ilgili karesini uygula.
         if (replacementPeelClip != null)
         {
@@ -379,8 +411,8 @@ public class LeafController : MonoBehaviour
             );
 
 
-            // Animasyon yalnýzca armature ve kemikleri büksün.
-            // Root transform deðerlerini bozmasýn.
+            // Animasyon yalnï¿½zca armature ve kemikleri bï¿½ksï¿½n.
+            // Root transform deï¿½erlerini bozmasï¿½n.
             replacementVisual.localPosition =
                 replacementVisualInitialLocalPosition;
 
@@ -397,7 +429,7 @@ public class LeafController : MonoBehaviour
         }
 
 
-        // Klip atanmadýysa eski pivot sistemi çalýþýr.
+        // Klip atanmadï¿½ysa eski pivot sistemi ï¿½alï¿½ï¿½ï¿½r.
         Vector3 hingeAxisWorld;
         Vector3 hingeWorldPoint;
 
@@ -461,8 +493,14 @@ public class LeafController : MonoBehaviour
             return;
 
 
-        // Mobilde touch varsa sadece touch iþle.
-        // Ayný dokunuþun mouse olarak ikinci kez algýlanmasýný önler.
+        // Play tusuna tiklamanin sahte "ilk kare tiklamasi" olarak alginmasini onlemek
+        // icin kisa bir sure boyunca girdi yok sayilir (bkz. inputReadyTime aciklamasi).
+        if (Time.unscaledTime < inputReadyTime)
+            return;
+
+
+        // Mobilde touch varsa sadece touch iï¿½le.
+        // Aynï¿½ dokunuï¿½un mouse olarak ikinci kez algï¿½lanmasï¿½nï¿½ ï¿½nler.
         if (Input.touchCount > 0)
         {
             HandleTouch();
@@ -520,12 +558,12 @@ public class LeafController : MonoBehaviour
 
     private void PlayLeafOpenSound()
     {
-        // Bir yaprak için sesi yalnýzca bir kere çal.
+        // Bir yaprak iï¿½in sesi yalnï¿½zca bir kere ï¿½al.
         if (hasPlayedOpenSound)
             return;
 
 
-        // Inspector alaný boþsa ayný objede tekrar ara.
+        // Inspector alanï¿½ boï¿½sa aynï¿½ objede tekrar ara.
         if (leafAudioSource == null)
         {
             leafAudioSource =
@@ -558,15 +596,15 @@ public class LeafController : MonoBehaviour
         hasPlayedOpenSound = true;
 
 
-        // Ses mesafeye göre kýsýlmasýn.
+        // Ses mesafeye gï¿½re kï¿½sï¿½lmasï¿½n.
         leafAudioSource.spatialBlend = 0f;
 
 
-        // Ayný source üzerinde daha önce bir þey çalýyorsa temizle.
+        // Aynï¿½ source ï¿½zerinde daha ï¿½nce bir ï¿½ey ï¿½alï¿½yorsa temizle.
         leafAudioSource.Stop();
 
 
-        // Yaprak sesini bir kere çal.
+        // Yaprak sesini bir kere ï¿½al.
         leafAudioSource.PlayOneShot(
             leafAudioSource.clip
         );
@@ -863,24 +901,67 @@ public class LeafController : MonoBehaviour
             leafDownwardVelocity;
 
 
-        leafRigidbody.AddTorque(
+        // Acisal hiz DOGRUDAN atanir (Impulse degil) - bkz. leafTorqueAmount aciklamasi.
+        leafRigidbody.angularVelocity =
             Random.insideUnitSphere *
-            leafTorqueAmount,
-            ForceMode.Impulse
-        );
+            leafTorqueAmount;
+
+
+        // Suzulme hissi icin yanal salinim yonu: dusme yonune (outwardDirection) ve
+        // yukari eksenine (upDirection) dik, yani yatayda "sag-sol" tarafa dogru.
+        Vector3 swayAxis =
+            Vector3.Cross(
+                upDirection,
+                outwardDirection
+            ).normalized;
 
 
         StartCoroutine(
-            HideFallenLeaf()
+            HideFallenLeaf(
+                leafRigidbody,
+                swayAxis
+            )
         );
     }
 
 
-    private IEnumerator HideFallenLeaf()
+    private IEnumerator HideFallenLeaf(
+        Rigidbody leafRigidbody,
+        Vector3 swayAxis
+    )
     {
-        yield return new WaitForSeconds(
-            leafPhysicsLifetime
-        );
+        // Dusme suresi boyunca hafif, salinimli bir yanal kuvvet uygulanir; yaprak
+        // duz asagi dusmek yerine ruzgarda suzuluyormus gibi sag-sola kayar.
+        float elapsed = 0f;
+
+        while (elapsed < leafPhysicsLifetime)
+        {
+            elapsed +=
+                Time.deltaTime;
+
+
+            if (leafRigidbody != null)
+            {
+                float swayForce =
+                    Mathf.Sin(
+                        elapsed *
+                        leafSwayFrequency *
+                        Mathf.PI *
+                        2f
+                    ) *
+                    leafSwayForce;
+
+
+                leafRigidbody.AddForce(
+                    swayAxis *
+                    swayForce,
+                    ForceMode.Force
+                );
+            }
+
+
+            yield return null;
+        }
 
 
         if (replacementVisual == null)
@@ -891,7 +972,7 @@ public class LeafController : MonoBehaviour
             replacementVisual.localScale;
 
 
-        float elapsed = 0f;
+        elapsed = 0f;
 
 
         while (elapsed < leafShrinkDuration)
