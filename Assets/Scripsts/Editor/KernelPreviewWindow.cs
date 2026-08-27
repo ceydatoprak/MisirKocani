@@ -53,6 +53,55 @@ public class KernelPreviewWindow : EditorWindow
         EditorUtility.SetDirty(activeSpawner);
     }
 
+    // Elle satir satir ayarlanan degerlerdeki (sizeLayerScales, sizeLayerColumnCounts,
+    // rowHeightMultipliers, rowWidthMultipliers) ani/tek-satirlik sicramalari komsu satirlarla
+    // harmanlayarak azaltir. Onden/yandan bakildiginda kenarlarin "yamuk" gorunmesinin ana sebebi
+    // budur: sizeLayerCount == rows oldugunda katmanlar arasi smoothstep gecisi devre disi kalir
+    // (her satir kendi kontrol noktasi olur) ve elle girilen degerler arasinda hic yumusatma
+    // uygulanmaz. Genel egilimi/sekli BOZMAZ (agirlikli ortalama), sadece komsu satirlar arasi
+    // sert farkin bir kismini alir. RegenerateActiveSceneKernels gibi Selection'a bagimli degildir.
+    [MenuItem("Tools/Misir Kocani/Aktif Sahnedeki Satirlari Puruzsuzlestir")]
+    private static void SmoothActiveSceneRows()
+    {
+        KernelSpawner activeSpawner = FindObjectOfType<KernelSpawner>();
+        if (activeSpawner == null)
+        {
+            Debug.LogWarning("Aktif sahnede KernelSpawner bulunamadi.");
+            return;
+        }
+        Undo.RegisterFullObjectHierarchyUndo(activeSpawner.transform.root.gameObject, "Satirlari Puruzsuzlestir");
+        Undo.RecordObject(activeSpawner, "Satirlari Puruzsuzlestir");
+
+        activeSpawner.sizeLayerScales = SmoothArray(activeSpawner.sizeLayerScales);
+        activeSpawner.sizeLayerColumnCounts = SmoothArray(activeSpawner.sizeLayerColumnCounts);
+        activeSpawner.rowHeightMultipliers = SmoothArray(activeSpawner.rowHeightMultipliers);
+        activeSpawner.rowWidthMultipliers = SmoothArray(activeSpawner.rowWidthMultipliers);
+
+        activeSpawner.SpawnKernels();
+        EditorUtility.SetDirty(activeSpawner);
+        Debug.Log("Satir bazli degerler puruzsuzlestirildi ve taneler yeniden uretildi.");
+    }
+
+    // 3 noktali agirlikli hareketli ortalama (0.25 / 0.5 / 0.25), kenarlar clamp edilir (dizi
+    // disina tasan komsu, en uctaki degerin kendisiyle doldurulur). TEK GECIS: genel egri/sekli
+    // korur, sadece komsu satirlar arasindaki ani (tek satirlik) sicramalarin bir kismini alir.
+    // Ust uste birkac kez cagirmak etkisini guclendirir (daha fazla puruzsuzlestirme).
+    private static float[] SmoothArray(float[] values)
+    {
+        if (values == null || values.Length <= 2)
+            return values;
+
+        float[] result = new float[values.Length];
+        for (int i = 0; i < values.Length; i++)
+        {
+            float prev = values[Mathf.Max(0, i - 1)];
+            float curr = values[i];
+            float next = values[Mathf.Min(values.Length - 1, i + 1)];
+            result[i] = prev * 0.25f + curr * 0.5f + next * 0.25f;
+        }
+        return result;
+    }
+
     private void OnEnable()
     {
         Refresh();
@@ -214,6 +263,23 @@ public class KernelPreviewWindow : EditorWindow
                 2f);
         }
         EditorGUI.indentLevel--;
+
+        EditorGUILayout.Space();
+        if (GUILayout.Button("Satirlari Puruzsuzlestir (Kenar Yamukluklarini Azalt)", GUILayout.Height(28)))
+        {
+            sizeLayerScales = SmoothArray(sizeLayerScales);
+            sizeLayerColumnCounts = SmoothArray(sizeLayerColumnCounts);
+            rowHeightMultipliers = SmoothArray(rowHeightMultipliers);
+            rowWidthMultipliers = SmoothArray(rowWidthMultipliers);
+            ApplyToSourceOfTruth();
+            RegenerateAndShow();
+        }
+        EditorGUILayout.HelpBox(
+            "Elle satir satir girdigin degerlerdeki ani (tek satirlik) sicramalari komsu " +
+            "satirlarla hafifce harmanlayarak azaltir; genel sekli/egilimi BOZMAZ, sadece " +
+            "onden/yandan bakildiginda kenarlarin yamuk gorunmesine yol acan puruzu alir. " +
+            "Ust uste birkac kez basarsan etki katlanarak artar (daha guclu puruzsuzlestirme).",
+            MessageType.None);
 
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Yukseklige Gore Katmanli Boyut ve Tane Sayisi (Alttan Usta)", EditorStyles.boldLabel);
