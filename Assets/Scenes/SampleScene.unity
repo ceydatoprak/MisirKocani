@@ -18318,7 +18318,8 @@ Transform:
   m_LocalPosition: {x: -0.47521484, y: -0.1095013, z: 0.0143277645}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2125262846}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &435052499
@@ -48011,7 +48012,7 @@ MonoBehaviour:
   replacementVisual: {fileID: 484586857}
   replacementOpenAngle: 75
   replacementHingeCollider: {fileID: 1947566593}
-  replacementPeelClip: {fileID: 673431858175820397, guid: a85bb108d76fdec4a9c16f81e20d7e0c, type: 3}
+  replacementPeelClip: {fileID: 1166564560645271163, guid: dad505fe12fe23f47a95eee3e481ffd5, type: 3}
   replacementSkeletonTarget: {fileID: 543450652611381679}
   leafAudioSource: {fileID: 0}
   leafPhysicsLifetime: 1.5
@@ -78236,7 +78237,7 @@ MonoBehaviour:
   replacementVisual: {fileID: 2110022549}
   replacementOpenAngle: 75
   replacementHingeCollider: {fileID: 1947566593}
-  replacementPeelClip: {fileID: 673431858175820397, guid: a85bb108d76fdec4a9c16f81e20d7e0c, type: 3}
+  replacementPeelClip: {fileID: 1166564560645271163, guid: dad505fe12fe23f47a95eee3e481ffd5, type: 3}
   replacementSkeletonTarget: {fileID: 543450653410444042}
   leafAudioSource: {fileID: 0}
   leafPhysicsLifetime: 1.5
@@ -96428,8 +96429,8 @@ Transform:
   m_GameObject: {fileID: 2125262842}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.98671436, z: -0, w: -0.16246492}
-  m_LocalPosition: {x: 0, y: 0.91, z: -1.06}
-  m_LocalScale: {x: 1.58, y: 2.64, z: 1.72}
+  m_LocalPosition: {x: 0.47521484, y: 1.0195013, z: -1.0743277}
+  m_LocalScale: {x: 1.58, y: 2.64, z: 1.7200001}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1918401875}
@@ -96439,7 +96440,7 @@ Transform:
   - {fileID: 1931057507}
   - {fileID: 484586857}
   - {fileID: 2110022549}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 431216169}
   m_LocalEulerAnglesHint: {x: 0, y: 198.7, z: 0}
 --- !u!114 &2125262848
 MonoBehaviour:
@@ -99864,7 +99865,6 @@ SceneRoots:
   - {fileID: 963194228}
   - {fileID: 705507995}
   - {fileID: 431216169}
-  - {fileID: 2125262846}
   - {fileID: 496712533}
   - {fileID: 1034697432}
   - {fileID: 1643821149}
