@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class CornPeelController : MonoBehaviour
@@ -7,6 +8,19 @@ public class CornPeelController : MonoBehaviour
 
     private int remainingKernels;
     private int totalKernelsAtStart;
+
+    [Header("Otomatik Bitirme (Son Taneler)")]
+    [Tooltip("Soyulan oran bu esige ulasinca kalan taneler kendiliginden firlayip dusme animasyonuyla soyulur. Boylece oyuncu son birkac zor-erisilen taneyi tek tek aramak zorunda kalmaz.")]
+    [Range(0f, 1f)]
+    public float autoFinishThreshold = 0.9f;
+
+    [Tooltip("Otomatik bitirmede ardisik tanelerin firlamasi arasindaki minimum gecikme (saniye).")]
+    public float autoFinishStaggerMin = 0.015f;
+
+    [Tooltip("Otomatik bitirmede ardisik tanelerin firlamasi arasindaki maksimum gecikme (saniye).")]
+    public float autoFinishStaggerMax = 0.05f;
+
+    private bool autoFinishTriggered = false;
 
     // Sahnede tek olmasi beklenir; Inspector'dan elle atamaya gerek kalmasin diye Start()'ta
     // otomatik bulunur (bkz. FindProgressBar).
@@ -430,17 +444,48 @@ public class CornPeelController : MonoBehaviour
             "Kalan tane: " + remainingKernels
         );
 
-        if (progressBar != null && totalKernelsAtStart > 0)
-        {
-            float peeledRatio =
-                1f - (float)remainingKernels / totalKernelsAtStart;
+        float peeledRatio =
+            totalKernelsAtStart > 0
+                ? 1f - (float)remainingKernels / totalKernelsAtStart
+                : 0f;
 
+        if (progressBar != null)
+        {
             progressBar.SetProgress(peeledRatio);
+        }
+
+        // Son birkac zor-erisilen taneyi oyuncunun tek tek aramasina gerek kalmasin diye,
+        // esige ulasilinca kalanlar kendiliginden (kademeli, "patlama" gibi) firlayip duser.
+        if (!autoFinishTriggered &&
+            totalKernelsAtStart > 0 &&
+            peeledRatio >= autoFinishThreshold)
+        {
+            autoFinishTriggered = true;
+            StartCoroutine(AutoFinishRemainingKernels());
         }
 
         if (remainingKernels <= 0)
         {
             CompletePeeling();
+        }
+    }
+
+
+    private IEnumerator AutoFinishRemainingKernels()
+    {
+        KernelPiece[] remaining =
+            GetComponentsInChildren<KernelPiece>(includeInactive: false);
+
+        foreach (KernelPiece kernel in remaining)
+        {
+            if (kernel == null)
+                continue;
+
+            kernel.Peel(nextKernelSoundPitch);
+
+            yield return new WaitForSeconds(
+                Random.Range(autoFinishStaggerMin, autoFinishStaggerMax)
+            );
         }
     }
 

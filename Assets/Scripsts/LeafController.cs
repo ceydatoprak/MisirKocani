@@ -35,6 +35,10 @@ public class LeafController : MonoBehaviour
     [Tooltip("Surukleme ilerlemesine gore kare kare oynatilacak yaprak animasyonu.")]
     [SerializeField] private AnimationClip replacementPeelClip;
 
+    [Tooltip("replacementPeelClip'in uygulanacagi iskelet kok nesnesi (orn. yeni yaprak modelinin kendi Armature'i). " +
+             "Bos birakilirsa klip dogrudan replacementVisual uzerine uygulanir (eski davranis).")]
+    [SerializeField] private Transform replacementSkeletonTarget;
+
 
     [Header("Ses Ayarlari")]
     [Tooltip("Yaprak acilma sesini calacak AudioSource.")]
@@ -105,6 +109,17 @@ public class LeafController : MonoBehaviour
     private Vector3 replacementVisualInitialLocalScale;
 
 
+    // replacementSkeletonTarget atanmamissa klip dogrudan replacementVisual'a uygulanir.
+    private Transform SkeletonSampleTarget =>
+        replacementSkeletonTarget != null
+            ? replacementSkeletonTarget
+            : replacementVisual;
+
+    private Vector3 skeletonTargetInitialLocalPosition;
+    private Quaternion skeletonTargetInitialLocalRotation;
+    private Vector3 skeletonTargetInitialLocalScale;
+
+
     private Transform replacementVisualCornBody;
     private Vector3 replacementVisualLocalHingeAxis;
     private Vector3 replacementVisualLocalHingePoint;
@@ -127,6 +142,13 @@ public class LeafController : MonoBehaviour
     // boyunca dokunma/tiklama girdisi yok sayilarak bu sahte ilk kare tiklamasi elenir.
     private const float InputIgnoreDuration = 0.2f;
     private float inputReadyTime;
+
+
+    // SnapRoutine icin kare basina izin verilen maksimum ilerleme (saniye).
+    // Bir performans takilmasi sirasinda tek karede Time.deltaTime bunu asarsa,
+    // fazlasi bir sonraki kareye devrolur; boylece acilma animasyonu tek karede
+    // atlanip bitmis gibi gorunmez.
+    private const float MaxSnapStepSeconds = 0.05f;
 
 
     public bool IsOpen => isOpen;
@@ -215,6 +237,25 @@ public class LeafController : MonoBehaviour
 
         replacementVisualInitialLocalScale =
             replacementVisual.localScale;
+
+
+        Transform skeletonTarget =
+            SkeletonSampleTarget;
+
+
+        if (skeletonTarget != null)
+        {
+            skeletonTargetInitialLocalPosition =
+                skeletonTarget.localPosition;
+
+
+            skeletonTargetInitialLocalRotation =
+                skeletonTarget.localRotation;
+
+
+            skeletonTargetInitialLocalScale =
+                skeletonTarget.localScale;
+        }
 
 
         // Animator kendi kendine oynamasin.
@@ -400,29 +441,33 @@ public class LeafController : MonoBehaviour
         // animasyonun ilgili karesini uygula.
         if (replacementPeelClip != null)
         {
+            Transform skeletonTarget =
+                SkeletonSampleTarget;
+
+
             float animationTime =
                 progress *
                 replacementPeelClip.length;
 
 
             replacementPeelClip.SampleAnimation(
-                replacementVisual.gameObject,
+                skeletonTarget.gameObject,
                 animationTime
             );
 
 
             // Animasyon yaln�zca armature ve kemikleri b�ks�n.
             // Root transform de�erlerini bozmas�n.
-            replacementVisual.localPosition =
-                replacementVisualInitialLocalPosition;
+            skeletonTarget.localPosition =
+                skeletonTargetInitialLocalPosition;
 
 
-            replacementVisual.localRotation =
-                replacementVisualInitialLocalRotation;
+            skeletonTarget.localRotation =
+                skeletonTargetInitialLocalRotation;
 
 
-            replacementVisual.localScale =
-                replacementVisualInitialLocalScale;
+            skeletonTarget.localScale =
+                skeletonTargetInitialLocalScale;
 
 
             return;
@@ -531,6 +576,17 @@ public class LeafController : MonoBehaviour
 
         if (touch.phase == TouchPhase.Began)
         {
+            Debug.Log(
+                gameObject.name +
+                " [DIAG] Touch Began alindi. pos=" +
+                touch.position +
+                " touchCount=" +
+                Input.touchCount +
+                " t=" +
+                Time.realtimeSinceStartup
+            );
+
+
             TryOpen(
                 touch.position
             );
@@ -544,6 +600,13 @@ public class LeafController : MonoBehaviour
     {
         if (!IsPointerOnThisLeaf(screenPosition))
             return;
+
+
+        Debug.Log(
+            gameObject.name +
+            " [DIAG] TryOpen basladi. t=" +
+            Time.realtimeSinceStartup
+        );
 
 
         PlayLeafOpenSound();
@@ -715,12 +778,34 @@ public class LeafController : MonoBehaviour
 
 
         float elapsed = 0f;
+        int frameCount = 0;
+        float diagStartTime = Time.realtimeSinceStartup;
+
+
+        Debug.Log(
+            gameObject.name +
+            " [DIAG] SnapRoutine basladi. snapAnimationDuration=" +
+            snapAnimationDuration +
+            " deltaTime(ilk kare)=" +
+            Time.deltaTime
+        );
 
 
         while (elapsed < snapAnimationDuration)
         {
+            frameCount++;
+            // Mobilde (ozellikle ilk dokunusta skinned mesh'in canli poza gecmesi,
+            // GC vb. yuzunden) tek bir karede Time.deltaTime aniden buyuk gelebiliyor.
+            // Sinirlamazsak butun acilma animasyonu tek karede "atlanip" bitmis gibi
+            // gorunuyordu (yaprak animasyonsuz aninda acilip dusuyordu). Kare basina
+            // ilerlemeyi kucuk bir tavanla sinirlayarak, bir takilma olsa bile
+            // animasyon gercek surede biraz uzasa da her zaman birkac gorunur kare
+            // boyunca oynuyor.
             elapsed +=
-                Time.deltaTime;
+                Mathf.Min(
+                    Time.deltaTime,
+                    MaxSnapStepSeconds
+                );
 
 
             float t =
@@ -757,6 +842,16 @@ public class LeafController : MonoBehaviour
 
 
         isAnimating = false;
+
+
+        Debug.Log(
+            gameObject.name +
+            " [DIAG] SnapRoutine bitti. frameCount=" +
+            frameCount +
+            " gercekSure=" +
+            (Time.realtimeSinceStartup - diagStartTime) +
+            "s"
+        );
 
 
         if (markOpenOnComplete)
@@ -800,6 +895,13 @@ public class LeafController : MonoBehaviour
 
     private void StartReplacementFall()
     {
+        Debug.Log(
+            gameObject.name +
+            " [DIAG] StartReplacementFall cagrildi. t=" +
+            Time.realtimeSinceStartup
+        );
+
+
         if (
             !hasReplacementVisual ||
             replacementVisual == null ||
