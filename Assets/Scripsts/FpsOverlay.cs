@@ -7,11 +7,22 @@ public class FpsOverlay : MonoBehaviour
     [SerializeField] private float updateInterval = 0.5f;
     [SerializeField] private int fontSize = 42;
 
+    [Header("FPS Sinirlama")]
+    [Tooltip("Uygulamanin hedefleyecegi sabit FPS. VSync bunu ezmesin diye vSyncCount ayrica kapatilir.")]
+    [SerializeField] private int targetFrameRate = 60;
+
     private float accumulatedTime;
     private int frameCount;
     private float currentFps;
 
     private GUIStyle style;
+
+    private void Awake()
+    {
+        // VSyncCount != 0 iken Application.targetFrameRate yok sayilir; bu yuzden once kapatilir.
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = targetFrameRate;
+    }
 
     private void Update()
     {
