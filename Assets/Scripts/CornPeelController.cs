@@ -22,41 +22,17 @@ public class CornPeelController : MonoBehaviour
 
     private bool autoFinishTriggered = false;
 
-    // Sahnede tek olmasi beklenir; Inspector'dan elle atamaya gerek kalmasin diye Start()'ta
-    // otomatik bulunur (bkz. FindProgressBar).
     private PeelProgressBar progressBar;
-
     private Vector2 lastPointerPosition;
 
-    // Tanelerin aras�ndaki k���k bo�luklar� tolere eder.
-    // Inspector'dan de�i�tirebilirsin.
     public float peelDetectionRadius = 45f;
 
-    // Bir tanenin onunde, kocan/govde collider'i (CapsuleCollider yaklasik bir sekildir, gercek
-    // mesh yuzeyini birebir takip etmez) bu mesafe kadar yakinsa yine de o tane secilebilir sayilir.
-    // Boylece govdeye yakin/kismen arkasinda kalan ust taneler raycast'te atlanmaz, ama gercekten
-    // govdenin cok arkasinda kalan (buyuk mesafe farkli) taneler yine de secilemez.
-    // Yukseltildi: yan acidan gorunen taneler, kabaca yaklasan kapsul collider yuzunden
-    // "arkada" sayilip atlanmasin diye (kullanici sadece onden degil, yandan gorunen
-    // taneleri de suruklerken dokebilmeli).
+    // Gövde collider'ı ile tane arasındaki görünürlük toleransı.
     public float kernelOcclusionTolerance = 0.9f;
 
-    // Tanenin "disariya donuk" yuzeyinin kameraya ne kadar donuk olmasi gerektigi (dot carpimi, -1..1).
-    // 1 = tam kameraya bakiyor (klasik on yuz), 0 = tam yandan (siluet kenari), negatif = arkaya donuk.
-    // Kocan uste dogru incelirken (dar ust satirlar) yaklasik kapsul collider ile gercek yuzey arasindaki
-    // fark buyudugunden, sadece mesafe toleransina (kernelOcclusionTolerance) guvenmek ust satirlardaki
-    // yandan gorunen taneleri "arkada" sayip elerdi. Bu esik, tanenin GERCEK yonelimine bakarak (kocanin
-    // kaba govde seklinden bagimsiz) yandan/siluet kenarindaki taneleri de secilebilir kilar; gercekten
-    // kocanin arka tarafina donuk taneler yine de reddedilir.
+    // Tanenin kameraya dönüklüğünü kontrol eden eşik değeri.
     [Range(-1f, 1f)]
     public float kernelFacingDotThreshold = -0.35f;
-
-    // =====================================================
-    // TANE SESI PITCH ILERLEMESI
-    // =====================================================
-    // Sayac tek bir yerde (burada) tutulur; her KernelPiece kendi basina ayri bir
-    // ilerleme tutmaz. Boylece ayni kesintisiz surukleme sirasinda soyulan taneler
-    // (hangi KernelPiece olursa olsun) ortak, tutarli bir pitch dizisi paylasir.
 
     [Header("Tane Sesi Pitch Ilerlemesi")]
     [Tooltip("Kesintisiz suruklemenin ilk tanesinde kullanilan pitch (tok/normal).")]
@@ -68,12 +44,9 @@ public class CornPeelController : MonoBehaviour
     [Tooltip("Her GERCEKTEN soyulan tanede pitch'in ne kadar artacagi. Kucuk deger = daha uzun/yumusak yukselis.")]
     public float kernelSoundPitchStep = 0.015f;
 
-    // Mevcut kesintisiz surukleme icinde bir sonraki soyulacak tanede kullanilacak pitch.
-    // Parmak/mouse birakildiginda veya yeni bir surukleme basladiginda kernelSoundBasePitch'e sifirlanir.
     private float nextKernelSoundPitch;
 
-    // Physics.RaycastNonAlloc icin sinif seviyesinde bir kez olusturulan, tekrar kullanilan tampon;
-    // her dokunma/orneklemede yeni dizi/liste/LINQ allocation'i onler.
+    // Raycast işlemlerinde tekrar kullanılan tampon.
     private readonly RaycastHit[] raycastBuffer = new RaycastHit[16];
 
     private void Start()
@@ -82,35 +55,29 @@ public class CornPeelController : MonoBehaviour
         progressBar = FindObjectOfType<PeelProgressBar>();
     }
 
-
-    // Yeni bir kesintisiz surukleme baslarken (parmak/mouse asagi) veya
-    // bir surukleme birakildiginda cagrilir; pitch dizisini bastan baslatir.
     private void ResetKernelSoundPitchProgression()
     {
         nextKernelSoundPitch = kernelSoundBasePitch;
     }
 
-
-    // B�t�n yapraklar a��ld�ktan sonra �a�r�l�r.
+    // Yapraklar açıldıktan sonra soyma işlemini başlatır.
     public void StartPeeling()
     {
         canPeel = true;
 
-        // includeInactive: false -> pasif KernelTemplate sayilmaz, sadece aktif taneler sayilir.
         remainingKernels =
             GetComponentsInChildren<KernelPiece>(includeInactive: false).Length;
+
         totalKernelsAtStart = remainingKernels;
 
-        Debug.Log("M�s�r art�k soyulabilir!");
-        Debug.Log("Toplam tane say�s�: " + remainingKernels);
+        Debug.Log("Mısır artık soyulabilir!");
+        Debug.Log("Toplam tane sayısı: " + remainingKernels);
 
         if (progressBar != null)
         {
             progressBar.SetProgress(0f);
         }
 
-        // Misir, iki yaprak da acilip soyulabilir hale gelene kadar donmez;
-        // ancak bu noktada kendi kendine donmeye baslar.
         CornRotateController rotateController =
             GetComponent<CornRotateController>();
 
@@ -119,7 +86,6 @@ public class CornPeelController : MonoBehaviour
             rotateController.StartRotating();
         }
     }
-
 
     private void Update()
     {
@@ -134,27 +100,21 @@ public class CornPeelController : MonoBehaviour
         }
     }
 
-
     // =====================================================
     // MOUSE
     // =====================================================
 
     private void HandleMouse()
     {
-        // �lk t�klama: nereye bas�l�rsa bas�ls�n (bo� alan dahil) suruklemeye baslar.
-        // Parmak/mouse hangi noktadan gecerse gecsin, altindaki tane hemen soyulur.
         if (Input.GetMouseButtonDown(0))
         {
             lastPointerPosition = Input.mousePosition;
 
-            // Yeni bir basis = yeni bir kesintisiz surukleme. Pitch dizisi bastan baslar.
             ResetKernelSoundPitchProgression();
 
             PeelNearPoint(Input.mousePosition);
         }
 
-
-        // Mouse bas�l� tutuluyor
         if (Input.GetMouseButton(0))
         {
             Vector2 currentPosition = Input.mousePosition;
@@ -167,18 +127,14 @@ public class CornPeelController : MonoBehaviour
             lastPointerPosition = currentPosition;
         }
 
-
-        // Mouse b�rak�ld�
         if (Input.GetMouseButtonUp(0))
         {
-            // Birakildigi anda pitch ilerlemesi tamamen sifirlanir.
             ResetKernelSoundPitchProgression();
         }
     }
 
-
     // =====================================================
-    // MOB�L TOUCH
+    // MOBİL TOUCH
     // =====================================================
 
     private void HandleTouch()
@@ -189,16 +145,11 @@ public class CornPeelController : MonoBehaviour
         {
             lastPointerPosition = touch.position;
 
-            // Yeni bir dokunus = yeni bir kesintisiz surukleme. Pitch dizisi bastan baslar.
             ResetKernelSoundPitchProgression();
 
-            // Ekranin neresine dokunulursa dokunulsun (bos alan dahil) suruklemeye baslar.
             PeelNearPoint(touch.position);
         }
 
-
-        // Moved VE Stationary (parmak basiliyken kisaca durdugunda) ayni sekilde islenir.
-        // Boylece parmak kaldirilmadigi surece dokulme kesintiye ugramaz.
         if (touch.phase == TouchPhase.Moved ||
             touch.phase == TouchPhase.Stationary)
         {
@@ -212,18 +163,15 @@ public class CornPeelController : MonoBehaviour
             lastPointerPosition = currentPosition;
         }
 
-
         if (touch.phase == TouchPhase.Ended ||
             touch.phase == TouchPhase.Canceled)
         {
-            // Parmak kaldirildigi anda pitch ilerlemesi tamamen sifirlanir.
             ResetKernelSoundPitchProgression();
         }
     }
 
-
     // =====================================================
-    // SADECE KAMERADAN G�R�NEN TANEY� BUL
+    // GÖRÜNEN TANEYİ BUL
     // =====================================================
 
     private KernelPiece GetVisibleKernelAtPoint(
@@ -233,7 +181,6 @@ public class CornPeelController : MonoBehaviour
         Ray ray =
             Camera.main.ScreenPointToRay(screenPoint);
 
-        // Allocation-free: sabit tampon + NonAlloc, her ornekleme icin yeni dizi/liste olusturmaz.
         int hitCount =
             Physics.RaycastNonAlloc(ray, raycastBuffer);
 
@@ -242,10 +189,10 @@ public class CornPeelController : MonoBehaviour
             return null;
         }
 
-        // Tum carpanlar arasinda en yakin mesafeyi (tane olsun olmasin, ornegin kocan govdesi)
-        // ve en yakin uygun KernelPiece'i tek gecişte bul; sort/allocation gerekmez.
         float closestDistance = float.MaxValue;
+
         KernelPiece closestKernel = null;
+
         float closestKernelDistance = float.MaxValue;
 
         for (int i = 0; i < hitCount; i++)
@@ -262,12 +209,11 @@ public class CornPeelController : MonoBehaviour
                 continue;
             }
 
-            // Collider'in kendisinde veya parent'inda KernelPiece ara.
             KernelPiece kernel =
                 hit.collider.GetComponentInParent<KernelPiece>();
 
-            // Sadece aktif (soyulup dususu bitmemis) taneler secilebilir.
-            if (kernel == null || !kernel.gameObject.activeInHierarchy)
+            if (kernel == null ||
+                !kernel.gameObject.activeInHierarchy)
             {
                 continue;
             }
@@ -281,20 +227,15 @@ public class CornPeelController : MonoBehaviour
             return null;
         }
 
-        // Iki bagimsiz kontrolden EN AZ biri gecerse tane secilebilir sayilir:
-        // 1) Mesafe toleransi: kocan/govde collider'inin yaklasik sekli yuzunden
-        //    toleransi asan gercek bir engel yoksa (eski davranis).
-        // 2) Yon kontrolu: mesafe kontrolu, ust satirlarda kocanin daralmasi yuzunden
-        //    yandan gorunen taneleri yanlislikla "arkada" sayabilir; ama tanenin kendi
-        //    disariya-donuk yuzu hala kameraya yeterince donukse (siluet kenarina kadar)
-        //    yine de secilebilir olmali.
         bool passesDistanceTolerance =
-            closestKernelDistance <= closestDistance + kernelOcclusionTolerance;
+            closestKernelDistance <=
+            closestDistance + kernelOcclusionTolerance;
 
         bool passesFacingCheck =
             IsKernelFacingCamera(closestKernel);
 
-        if (!passesDistanceTolerance && !passesFacingCheck)
+        if (!passesDistanceTolerance &&
+            !passesFacingCheck)
         {
             return null;
         }
@@ -302,12 +243,9 @@ public class CornPeelController : MonoBehaviour
         return closestKernel;
     }
 
-
-    // Tanenin disariya-donuk yuzunun (KernelSpawner'da transform.forward = disari yon olacak
-    // sekilde ayarlanir) kameraya ne kadar donuk oldugunu dot carpimiyla olcer. Kocanin kaba
-    // govde collider'inden tamamen bagimsizdir; bu yuzden ust satirlarda (dar yaricap) mesafe
-    // toleransinin kacirdigi yandan gorunen taneleri de dogru sekilde yakalar.
-    private bool IsKernelFacingCamera(KernelPiece kernel)
+    private bool IsKernelFacingCamera(
+        KernelPiece kernel
+    )
     {
         if (Camera.main == null)
         {
@@ -315,7 +253,8 @@ public class CornPeelController : MonoBehaviour
         }
 
         Vector3 towardCamera =
-            Camera.main.transform.position - kernel.transform.position;
+            Camera.main.transform.position -
+            kernel.transform.position;
 
         if (towardCamera.sqrMagnitude < 0.0001f)
         {
@@ -323,31 +262,32 @@ public class CornPeelController : MonoBehaviour
         }
 
         float facingDot =
-            Vector3.Dot(kernel.transform.forward, towardCamera.normalized);
+            Vector3.Dot(
+                kernel.transform.forward,
+                towardCamera.normalized
+            );
 
         return facingDot >= kernelFacingDotThreshold;
     }
 
-
     // =====================================================
-    // PARMA�IN YAKININDAK� TANELER� SOY
+    // TANELERİ SOY
     // =====================================================
 
-    private void PeelNearPoint(Vector2 screenPoint)
+    private void PeelNearPoint(
+        Vector2 screenPoint
+    )
     {
-        // �nce tam alt�ndaki taneyi kontrol et.
         KernelPiece centerKernel =
             GetVisibleKernelAtPoint(screenPoint);
 
         if (centerKernel != null)
         {
-            TryPeelKernelWithProgressivePitch(centerKernel);
+            TryPeelKernelWithProgressivePitch(
+                centerKernel
+            );
         }
 
-
-        // K���k bir �evreyi de kontrol ediyoruz.
-        // Kosegen yonler de eklendi: yan acidan gorunen, ekran uzayinda dar/egik
-        // duran taneler sadece dikey/yatay orneklemeyle atlanmasin diye.
         float smallRadius =
             peelDetectionRadius * 0.30f;
 
@@ -365,7 +305,6 @@ public class CornPeelController : MonoBehaviour
             new Vector2(-smallRadius, -smallRadius)
         };
 
-
         foreach (Vector2 offset in offsets)
         {
             KernelPiece kernel =
@@ -375,35 +314,36 @@ public class CornPeelController : MonoBehaviour
 
             if (kernel != null)
             {
-                TryPeelKernelWithProgressivePitch(kernel);
+                TryPeelKernelWithProgressivePitch(
+                    kernel
+                );
             }
         }
     }
 
-
-    // Taneyi, mevcut kesintisiz suruklemenin bir sonraki pitch degeriyle soymayi dener.
-    // Pitch sayaci SADECE kernel.Peel(...) gercekten yeni bir taneyi soyduysa (true donduyse)
-    // ilerletilir; zaten soyulmus/no-op bir tane icin bosa tuketilmez. Boylece "soyulan her
-    // yeni tane" ile pitch artisi bire bir eslesir.
-    private void TryPeelKernelWithProgressivePitch(KernelPiece kernel)
+    private void TryPeelKernelWithProgressivePitch(
+        KernelPiece kernel
+    )
     {
-        float pitchForThisKernel = nextKernelSoundPitch;
+        float pitchForThisKernel =
+            nextKernelSoundPitch;
 
-        bool actuallyPeeled = kernel.Peel(pitchForThisKernel);
+        bool actuallyPeeled =
+            kernel.Peel(pitchForThisKernel);
 
         if (actuallyPeeled)
         {
             nextKernelSoundPitch =
                 Mathf.Min(
                     kernelSoundMaxPitch,
-                    nextKernelSoundPitch + kernelSoundPitchStep
+                    nextKernelSoundPitch +
+                    kernelSoundPitchStep
                 );
         }
     }
 
-
     // =====================================================
-    // S�R�KLEME YOLUNU TARA
+    // SÜRÜKLEME YOLU
     // =====================================================
 
     private void PeelBetweenPoints(
@@ -414,23 +354,29 @@ public class CornPeelController : MonoBehaviour
         float distance =
             Vector2.Distance(start, end);
 
-        int steps = Mathf.Max(
-            1,
-            Mathf.CeilToInt(distance / 15f)
-        );
-
+        int steps =
+            Mathf.Max(
+                1,
+                Mathf.CeilToInt(
+                    distance / 15f
+                )
+            );
 
         for (int i = 0; i <= steps; i++)
         {
-            float t = (float)i / steps;
+            float t =
+                (float)i / steps;
 
             Vector2 screenPoint =
-                Vector2.Lerp(start, end, t);
+                Vector2.Lerp(
+                    start,
+                    end,
+                    t
+                );
 
             PeelNearPoint(screenPoint);
         }
     }
-
 
     // =====================================================
     // TANE SAYACI
@@ -441,27 +387,33 @@ public class CornPeelController : MonoBehaviour
         remainingKernels--;
 
         Debug.Log(
-            "Kalan tane: " + remainingKernels
+            "Kalan tane: " +
+            remainingKernels
         );
 
         float peeledRatio =
             totalKernelsAtStart > 0
-                ? 1f - (float)remainingKernels / totalKernelsAtStart
+                ? 1f -
+                  (float)remainingKernels /
+                  totalKernelsAtStart
                 : 0f;
 
         if (progressBar != null)
         {
-            progressBar.SetProgress(peeledRatio);
+            progressBar.SetProgress(
+                peeledRatio
+            );
         }
 
-        // Son birkac zor-erisilen taneyi oyuncunun tek tek aramasina gerek kalmasin diye,
-        // esige ulasilinca kalanlar kendiliginden (kademeli, "patlama" gibi) firlayip duser.
         if (!autoFinishTriggered &&
             totalKernelsAtStart > 0 &&
             peeledRatio >= autoFinishThreshold)
         {
             autoFinishTriggered = true;
-            StartCoroutine(AutoFinishRemainingKernels());
+
+            StartCoroutine(
+                AutoFinishRemainingKernels()
+            );
         }
 
         if (remainingKernels <= 0)
@@ -470,37 +422,44 @@ public class CornPeelController : MonoBehaviour
         }
     }
 
-
     private IEnumerator AutoFinishRemainingKernels()
     {
         KernelPiece[] remaining =
-            GetComponentsInChildren<KernelPiece>(includeInactive: false);
+            GetComponentsInChildren<KernelPiece>(
+                includeInactive: false
+            );
 
         foreach (KernelPiece kernel in remaining)
         {
             if (kernel == null)
                 continue;
 
-            kernel.Peel(nextKernelSoundPitch);
+            kernel.Peel(
+                nextKernelSoundPitch
+            );
 
             yield return new WaitForSeconds(
-                Random.Range(autoFinishStaggerMin, autoFinishStaggerMax)
+                Random.Range(
+                    autoFinishStaggerMin,
+                    autoFinishStaggerMax
+                )
             );
         }
     }
-
 
     private void CompletePeeling()
     {
         isCompleted = true;
 
-        // Yuvarlama hatalarindan bagimsiz, tamamlaninca cubuk kesinlikle tam dolu gorunsun.
         if (progressBar != null)
         {
             progressBar.SetProgress(1f);
         }
+
         canPeel = false;
 
-        Debug.Log("Tüm mısır taneleri soyuldu!");
+        Debug.Log(
+            "Tüm mısır taneleri soyuldu!"
+        );
     }
 }
