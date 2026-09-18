@@ -1,14 +1,10 @@
 using UnityEngine;
 using System.Collections;
 
-// Modelden bagimsiz, tek dokunusla acilan yaprak mantigi.
 public class LeafController : MonoBehaviour
 {
     [Header("Animasyon Ayarlari")]
-    // Eskiden 0.4s idi; acilma neredeyse aninda oluyor, dokunulunca "kendiliginden acilmis"
-    // gibi hissettiriyordu. Simdi biraz daha yavas ama abartmadan (0.9s), acilma hareketi
-    // goz ile takip edilebiliyor.
-    [Tooltip("Dokunma sonrasi acilma animasyonunun suresi (saniye). Cok hizli olursa acilma aninda/otomatik gibi hissettirir; cok yavas olursa da agir kalir.")]
+    [Tooltip("Dokunma sonrasi acilma animasyonunun suresi.")]
     [SerializeField] private float snapAnimationDuration = 0.9f;
 
 
@@ -32,11 +28,10 @@ public class LeafController : MonoBehaviour
     [Tooltip("Fallback pivot sisteminin mentese collider'i.")]
     [SerializeField] private Collider replacementHingeCollider;
 
-    [Tooltip("Surukleme ilerlemesine gore kare kare oynatilacak yaprak animasyonu.")]
+    [Tooltip("Yaprak acilma animasyonu.")]
     [SerializeField] private AnimationClip replacementPeelClip;
 
-    [Tooltip("replacementPeelClip'in uygulanacagi iskelet kok nesnesi (orn. yeni yaprak modelinin kendi Armature'i). " +
-             "Bos birakilirsa klip dogrudan replacementVisual uzerine uygulanir (eski davranis).")]
+    [Tooltip("Animasyon klibinin uygulanacagi iskelet kok nesnesi.")]
     [SerializeField] private Transform replacementSkeletonTarget;
 
 
@@ -46,41 +41,32 @@ public class LeafController : MonoBehaviour
 
 
     [Header("Yaprak Dusme Ayarlari")]
-
     [Tooltip("Yapragin dusmeye basladiktan sonra sahnede kalacagi sure.")]
     [SerializeField] private float leafPhysicsLifetime = 2.4f;
 
     [Tooltip("Yapragin kaybolmadan once kuculme suresi.")]
     [SerializeField] private float leafShrinkDuration = 0.4f;
 
-    // Dususun ilk anindaki "birakma" hizi dusuruldu; asil yavas/zarif his artik
-    // yuksek hava direnci (leafRigidbodyDrag) ve asagidaki yanal salinimdan geliyor.
-    [Tooltip("Yapragin asagi dogru baslangic hizi (dusuk tutulur; asil yavaslik hava direncinden gelir).")]
+    [Tooltip("Yapragin asagi dogru baslangic hizi.")]
     [SerializeField] private float leafDownwardVelocity = 0.12f;
 
     [Tooltip("Yapragin kocandan disari dogru hareket hizi.")]
     [SerializeField] private float leafOutwardVelocity = 0.15f;
 
-    // ONEMLI: Bu deger artik bir impulse degil, DOGRUDAN acisal hiz (radyan/saniye).
-    // Eskiden AddTorque(..., ForceMode.Impulse) kullaniliyordu; kucuk/hafif bir Rigidbody'de
-    // (leafRigidbodyMass ~0.25) impulse'un acisal hiza etkisi atalet momentiyle ters orantili
-    // oldugundan, ayni deger cilgin gibi hizli bir donuse yol acabiliyordu (mısır tanelerinde
-    // aynen yasanan sorunla ayni sebep). Dogrudan atama, kutleden bagimsiz, ongorulebilir bir
-    // yavas/zarif donus verir.
-    [Tooltip("Duserken yapragin donecegi maksimum acisal hiz (radyan/saniye, eksen basina). Kucuk tutulur, cilginca donmesin.")]
+    [Tooltip("Duserken yapragin maksimum acisal hizi.")]
     [SerializeField] private float leafTorqueAmount = 1.2f;
 
     [Tooltip("Yapraga runtime sirasinda eklenecek Rigidbody kutlesi.")]
     [SerializeField] private float leafRigidbodyMass = 0.25f;
 
-    [Tooltip("Yapragin hava direnci (yuksek deger = daha yavas/zarif dusus).")]
+    [Tooltip("Yapragin hava direnci.")]
     [SerializeField] private float leafRigidbodyDrag = 2.6f;
 
-    [Header("Suzulme (Yanal Salinim)")]
-    [Tooltip("Duserken yapragin sag-sola salinarak suzulmesini saglayan yanal kuvvetin genligi. 0 = kapali (duz dusus).")]
+    [Header("Suzulme")]
+    [Tooltip("Yapragin sag-sola salinma kuvveti.")]
     [SerializeField] private float leafSwayForce = 0.35f;
 
-    [Tooltip("Yanal salinimin saniyedeki periyot sikligi. Dusuk deger = yavas/genis salinim.")]
+    [Tooltip("Yanal salinimin frekansi.")]
     [SerializeField] private float leafSwayFrequency = 1.4f;
 
     [Tooltip("Yapragin donus direnci.")]
@@ -96,10 +82,8 @@ public class LeafController : MonoBehaviour
     private Vector3 openLocalPosition;
     private Quaternion openLocalRotation;
 
-
     private bool hasReplacementVisual;
     private bool isReplacementFalling = false;
-
 
     private Vector3 replacementVisualInitialWorldPosition;
     private Quaternion replacementVisualInitialWorldRotation;
@@ -108,8 +92,6 @@ public class LeafController : MonoBehaviour
     private Quaternion replacementVisualInitialLocalRotation;
     private Vector3 replacementVisualInitialLocalScale;
 
-
-    // replacementSkeletonTarget atanmamissa klip dogrudan replacementVisual'a uygulanir.
     private Transform SkeletonSampleTarget =>
         replacementSkeletonTarget != null
             ? replacementSkeletonTarget
@@ -119,11 +101,9 @@ public class LeafController : MonoBehaviour
     private Quaternion skeletonTargetInitialLocalRotation;
     private Vector3 skeletonTargetInitialLocalScale;
 
-
     private Transform replacementVisualCornBody;
     private Vector3 replacementVisualLocalHingeAxis;
     private Vector3 replacementVisualLocalHingePoint;
-
 
     private bool isAnimating = false;
     private bool isOpen = false;
@@ -134,22 +114,12 @@ public class LeafController : MonoBehaviour
 
     private Coroutine snapRoutine;
 
-
-    // Editor'de Play tusuna tiklamak da bir "mouse down" olayidir; bu tiklama bazen
-    // Play modunun ILK karesinde Input.GetMouseButtonDown(0) olarak algilanip, imlecin
-    // o an ustunde bulundugu yapragin - istemeden - aninda acilmasina yol aciyordu
-    // ("Play'e basar basmaz yaprak dusuyor" sikayeti). Kisa bir baslangic gecikmesi
-    // boyunca dokunma/tiklama girdisi yok sayilarak bu sahte ilk kare tiklamasi elenir.
+    // Play moduna geciste olusabilecek ilk sahte tiklamayi engeller.
     private const float InputIgnoreDuration = 0.2f;
     private float inputReadyTime;
 
-
-    // SnapRoutine icin kare basina izin verilen maksimum ilerleme (saniye).
-    // Bir performans takilmasi sirasinda tek karede Time.deltaTime bunu asarsa,
-    // fazlasi bir sonraki kareye devrolur; boylece acilma animasyonu tek karede
-    // atlanip bitmis gibi gorunmez.
+    // Animasyonun tek karede atlanmasini engeller.
     private const float MaxSnapStepSeconds = 0.05f;
-
 
     public bool IsOpen => isOpen;
 
@@ -158,52 +128,46 @@ public class LeafController : MonoBehaviour
 
     private void Awake()
     {
-        pivot = transform.parent != null
-            ? transform.parent
-            : transform;
+        pivot =
+            transform.parent != null
+                ? transform.parent
+                : transform;
 
-
-        leafCollider = GetComponent<Collider>();
-
+        leafCollider =
+            GetComponent<Collider>();
 
         inputReadyTime =
             Time.unscaledTime +
             InputIgnoreDuration;
 
-
-        // Inspector'dan atanmad�ysa ayn� objede AudioSource ara.
         if (leafAudioSource == null)
         {
-            leafAudioSource = GetComponent<AudioSource>();
+            leafAudioSource =
+                GetComponent<AudioSource>();
         }
 
-
-        // AudioSource bulunduysa g�venli ba�lang�� ayarlar�.
         if (leafAudioSource != null)
         {
             leafAudioSource.playOnAwake = false;
             leafAudioSource.loop = false;
-
-            // Ses yapra��n kameraya uzakl���na g�re kaybolmas�n.
             leafAudioSource.spatialBlend = 0f;
         }
 
+        closedLocalPosition =
+            pivot.localPosition;
 
-        closedLocalPosition = pivot.localPosition;
-        closedLocalRotation = pivot.localRotation;
-
+        closedLocalRotation =
+            pivot.localRotation;
 
         openLocalPosition =
             closedLocalPosition +
             openLocalPositionOffset;
-
 
         openLocalRotation =
             closedLocalRotation *
             Quaternion.Euler(
                 openLocalEulerAnglesOffset
             );
-
 
         InitializeReplacementVisual();
     }
@@ -214,73 +178,55 @@ public class LeafController : MonoBehaviour
         hasReplacementVisual =
             replacementVisual != null;
 
-
         if (!hasReplacementVisual)
             return;
-
 
         replacementVisualInitialWorldPosition =
             replacementVisual.position;
 
-
         replacementVisualInitialWorldRotation =
             replacementVisual.rotation;
-
 
         replacementVisualInitialLocalPosition =
             replacementVisual.localPosition;
 
-
         replacementVisualInitialLocalRotation =
             replacementVisual.localRotation;
-
 
         replacementVisualInitialLocalScale =
             replacementVisual.localScale;
 
-
         Transform skeletonTarget =
             SkeletonSampleTarget;
-
 
         if (skeletonTarget != null)
         {
             skeletonTargetInitialLocalPosition =
                 skeletonTarget.localPosition;
 
-
             skeletonTargetInitialLocalRotation =
                 skeletonTarget.localRotation;
-
 
             skeletonTargetInitialLocalScale =
                 skeletonTarget.localScale;
         }
 
-
-        // Animator kendi kendine oynamasin.
-        // Yaprak_Peel klibi kod tarafindan kare kare uygulanacak.
         Animator replacementAnimator =
             replacementVisual.GetComponent<Animator>();
-
 
         if (replacementAnimator != null)
         {
             replacementAnimator.enabled = false;
         }
 
-
         replacementVisualCornBody =
             replacementVisual.parent;
-
 
         Vector3 hingeAxisWorld =
             Vector3.up;
 
-
         Vector3 hingeWorldPoint =
             replacementVisualInitialWorldPosition;
-
 
         if (replacementVisualCornBody != null)
         {
@@ -288,17 +234,14 @@ public class LeafController : MonoBehaviour
                 replacementVisual
                     .GetComponentInChildren<SkinnedMeshRenderer>();
 
-
             if (skin != null)
             {
                 Vector3 cornUp =
                     replacementVisualCornBody.up;
 
-
                 Vector3 toBoundsCenter =
                     skin.bounds.center -
                     replacementVisualCornBody.position;
-
 
                 Vector3 radialOutward =
                     Vector3.ProjectOnPlane(
@@ -306,11 +249,9 @@ public class LeafController : MonoBehaviour
                         cornUp
                     );
 
-
                 if (radialOutward.sqrMagnitude > 0.0001f)
                 {
                     radialOutward.Normalize();
-
 
                     hingeAxisWorld =
                         Vector3.Cross(
@@ -319,7 +260,6 @@ public class LeafController : MonoBehaviour
                         );
                 }
             }
-
 
             if (replacementHingeCollider != null)
             {
@@ -330,13 +270,11 @@ public class LeafController : MonoBehaviour
                     );
             }
 
-
             replacementVisualLocalHingeAxis =
                 replacementVisualCornBody
                     .InverseTransformDirection(
                         hingeAxisWorld
                     );
-
 
             replacementVisualLocalHingePoint =
                 replacementVisualCornBody
@@ -348,7 +286,6 @@ public class LeafController : MonoBehaviour
         {
             replacementVisualLocalHingeAxis =
                 hingeAxisWorld;
-
 
             replacementVisualLocalHingePoint =
                 hingeWorldPoint;
@@ -364,12 +301,10 @@ public class LeafController : MonoBehaviour
         CapsuleCollider capsule =
             collider as CapsuleCollider;
 
-
         if (capsule != null)
         {
             Transform capsuleTransform =
                 capsule.transform;
-
 
             Vector3 localAxis =
                 capsule.direction == 0
@@ -378,26 +313,22 @@ public class LeafController : MonoBehaviour
                         ? Vector3.forward
                         : Vector3.up;
 
-
             float halfLength =
                 Mathf.Max(
                     capsule.height * 0.5f,
                     capsule.radius
                 );
 
-
             Vector3 worldCenter =
                 capsuleTransform.TransformPoint(
                     capsule.center
                 );
-
 
             Vector3 worldEnd =
                 capsuleTransform.TransformPoint(
                     capsule.center +
                     localAxis * halfLength
                 );
-
 
             float verticalExtent =
                 Mathf.Abs(
@@ -407,15 +338,12 @@ public class LeafController : MonoBehaviour
                     )
                 );
 
-
             return worldCenter +
                    up * verticalExtent;
         }
 
-
         Bounds bounds =
             collider.bounds;
-
 
         return bounds.center +
                up * bounds.extents.y;
@@ -424,60 +352,44 @@ public class LeafController : MonoBehaviour
 
     private void UpdateReplacementVisual(float progress)
     {
-        if (
-            !hasReplacementVisual ||
-            isReplacementFalling
-        )
+        if (!hasReplacementVisual ||
+            isReplacementFalling)
         {
             return;
         }
 
-
         progress =
             Mathf.Clamp01(progress);
 
-
-        // Klip atanm��sa yapay pivot hareketi yerine
-        // animasyonun ilgili karesini uygula.
         if (replacementPeelClip != null)
         {
             Transform skeletonTarget =
                 SkeletonSampleTarget;
 
-
             float animationTime =
                 progress *
                 replacementPeelClip.length;
-
 
             replacementPeelClip.SampleAnimation(
                 skeletonTarget.gameObject,
                 animationTime
             );
 
-
-            // Animasyon yaln�zca armature ve kemikleri b�ks�n.
-            // Root transform de�erlerini bozmas�n.
+            // Klip yalnizca iskelet animasyonunu uygulasin.
             skeletonTarget.localPosition =
                 skeletonTargetInitialLocalPosition;
-
 
             skeletonTarget.localRotation =
                 skeletonTargetInitialLocalRotation;
 
-
             skeletonTarget.localScale =
                 skeletonTargetInitialLocalScale;
-
 
             return;
         }
 
-
-        // Klip atanmad�ysa eski pivot sistemi �al���r.
         Vector3 hingeAxisWorld;
         Vector3 hingeWorldPoint;
-
 
         if (replacementVisualCornBody != null)
         {
@@ -486,7 +398,6 @@ public class LeafController : MonoBehaviour
                     .TransformDirection(
                         replacementVisualLocalHingeAxis
                     );
-
 
             hingeWorldPoint =
                 replacementVisualCornBody
@@ -499,23 +410,19 @@ public class LeafController : MonoBehaviour
             hingeAxisWorld =
                 replacementVisualLocalHingeAxis;
 
-
             hingeWorldPoint =
                 replacementVisualLocalHingePoint;
         }
 
-
         float angle =
             progress *
             replacementOpenAngle;
-
 
         Quaternion openRotation =
             Quaternion.AngleAxis(
                 angle,
                 hingeAxisWorld
             );
-
 
         replacementVisual.position =
             hingeWorldPoint +
@@ -524,7 +431,6 @@ public class LeafController : MonoBehaviour
                 replacementVisualInitialWorldPosition -
                 hingeWorldPoint
             );
-
 
         replacementVisual.rotation =
             openRotation *
@@ -537,15 +443,9 @@ public class LeafController : MonoBehaviour
         if (isOpen || isAnimating)
             return;
 
-
-        // Play tusuna tiklamanin sahte "ilk kare tiklamasi" olarak alginmasini onlemek
-        // icin kisa bir sure boyunca girdi yok sayilir (bkz. inputReadyTime aciklamasi).
         if (Time.unscaledTime < inputReadyTime)
             return;
 
-
-        // Mobilde touch varsa sadece touch i�le.
-        // Ayn� dokunu�un mouse olarak ikinci kez alg�lanmas�n� �nler.
         if (Input.touchCount > 0)
         {
             HandleTouch();
@@ -573,20 +473,8 @@ public class LeafController : MonoBehaviour
         Touch touch =
             Input.GetTouch(0);
 
-
         if (touch.phase == TouchPhase.Began)
         {
-            Debug.Log(
-                gameObject.name +
-                " [DIAG] Touch Began alindi. pos=" +
-                touch.position +
-                " touchCount=" +
-                Input.touchCount +
-                " t=" +
-                Time.realtimeSinceStartup
-            );
-
-
             TryOpen(
                 touch.position
             );
@@ -594,23 +482,12 @@ public class LeafController : MonoBehaviour
     }
 
 
-    // Tek dokunusla yapragin tamamen acilip
-    // dusme animasyonunu baslatir.
     private void TryOpen(Vector2 screenPosition)
     {
         if (!IsPointerOnThisLeaf(screenPosition))
             return;
 
-
-        Debug.Log(
-            gameObject.name +
-            " [DIAG] TryOpen basladi. t=" +
-            Time.realtimeSinceStartup
-        );
-
-
         PlayLeafOpenSound();
-
 
         SnapTo(
             1f,
@@ -621,18 +498,14 @@ public class LeafController : MonoBehaviour
 
     private void PlayLeafOpenSound()
     {
-        // Bir yaprak i�in sesi yaln�zca bir kere �al.
         if (hasPlayedOpenSound)
             return;
 
-
-        // Inspector alan� bo�sa ayn� objede tekrar ara.
         if (leafAudioSource == null)
         {
             leafAudioSource =
                 GetComponent<AudioSource>();
         }
-
 
         if (leafAudioSource == null)
         {
@@ -644,39 +517,24 @@ public class LeafController : MonoBehaviour
             return;
         }
 
-
         if (leafAudioSource.clip == null)
         {
             Debug.LogWarning(
                 gameObject.name +
-                ": Yaprak sesi calinamadi. AudioSource icindeki Audio Clip bos."
+                ": Yaprak sesi calinamadi. Audio Clip bos."
             );
 
             return;
         }
 
-
         hasPlayedOpenSound = true;
 
-
-        // Ses mesafeye g�re k�s�lmas�n.
         leafAudioSource.spatialBlend = 0f;
 
-
-        // Ayn� source �zerinde daha �nce bir �ey �al�yorsa temizle.
         leafAudioSource.Stop();
 
-
-        // Yaprak sesini bir kere �al.
         leafAudioSource.PlayOneShot(
             leafAudioSource.clip
-        );
-
-
-        Debug.Log(
-            gameObject.name +
-            ": Yaprak sesi caldi -> " +
-            leafAudioSource.clip.name
         );
     }
 
@@ -685,20 +543,16 @@ public class LeafController : MonoBehaviour
         Vector2 screenPosition
     )
     {
-        if (
-            Camera.main == null ||
-            leafCollider == null
-        )
+        if (Camera.main == null ||
+            leafCollider == null)
         {
             return false;
         }
-
 
         Ray ray =
             Camera.main.ScreenPointToRay(
                 screenPosition
             );
-
 
         return leafCollider.Raycast(
             ray,
@@ -717,15 +571,12 @@ public class LeafController : MonoBehaviour
                 progress
             );
 
-
-        // Eski gizli collider ve pivot sistemi korunur.
         pivot.localPosition =
             Vector3.Lerp(
                 closedLocalPosition,
                 openLocalPosition,
                 smoothProgress
             );
-
 
         pivot.localRotation =
             Quaternion.Slerp(
@@ -734,8 +585,6 @@ public class LeafController : MonoBehaviour
                 smoothProgress
             );
 
-
-        // Yeni yaprak animasyonu ayni progress'i kullanir.
         UpdateReplacementVisual(
             smoothProgress
         );
@@ -754,7 +603,6 @@ public class LeafController : MonoBehaviour
             );
         }
 
-
         snapRoutine =
             StartCoroutine(
                 SnapRoutine(
@@ -772,48 +620,24 @@ public class LeafController : MonoBehaviour
     {
         isAnimating = true;
 
-
         float startProgress =
             currentProgress;
 
-
         float elapsed = 0f;
-        int frameCount = 0;
-        float diagStartTime = Time.realtimeSinceStartup;
-
-
-        Debug.Log(
-            gameObject.name +
-            " [DIAG] SnapRoutine basladi. snapAnimationDuration=" +
-            snapAnimationDuration +
-            " deltaTime(ilk kare)=" +
-            Time.deltaTime
-        );
-
 
         while (elapsed < snapAnimationDuration)
         {
-            frameCount++;
-            // Mobilde (ozellikle ilk dokunusta skinned mesh'in canli poza gecmesi,
-            // GC vb. yuzunden) tek bir karede Time.deltaTime aniden buyuk gelebiliyor.
-            // Sinirlamazsak butun acilma animasyonu tek karede "atlanip" bitmis gibi
-            // gorunuyordu (yaprak animasyonsuz aninda acilip dusuyordu). Kare basina
-            // ilerlemeyi kucuk bir tavanla sinirlayarak, bir takilma olsa bile
-            // animasyon gercek surede biraz uzasa da her zaman birkac gorunur kare
-            // boyunca oynuyor.
             elapsed +=
                 Mathf.Min(
                     Time.deltaTime,
                     MaxSnapStepSeconds
                 );
 
-
             float t =
                 snapAnimationDuration > 0f
                     ? elapsed /
                       snapAnimationDuration
                     : 1f;
-
 
             currentProgress =
                 Mathf.Lerp(
@@ -822,37 +646,21 @@ public class LeafController : MonoBehaviour
                     t
                 );
 
-
             ApplyProgress(
                 currentProgress
             );
 
-
             yield return null;
         }
 
-
         currentProgress =
             targetProgress;
-
 
         ApplyProgress(
             currentProgress
         );
 
-
         isAnimating = false;
-
-
-        Debug.Log(
-            gameObject.name +
-            " [DIAG] SnapRoutine bitti. frameCount=" +
-            frameCount +
-            " gercekSure=" +
-            (Time.realtimeSinceStartup - diagStartTime) +
-            "s"
-        );
-
 
         if (markOpenOnComplete)
         {
@@ -866,28 +674,22 @@ public class LeafController : MonoBehaviour
         if (isOpen)
             return;
 
-
         isOpen = true;
-
 
         Debug.Log(
             gameObject.name +
             " yapragi tamamen acildi!"
         );
 
-
         CornController cornController =
             FindObjectOfType<CornController>();
-
 
         if (cornController != null)
         {
             cornController.LeafRemoved();
         }
 
-
         CheckAllLeavesOpened();
-
 
         StartReplacementFall();
     }
@@ -895,29 +697,17 @@ public class LeafController : MonoBehaviour
 
     private void StartReplacementFall()
     {
-        Debug.Log(
-            gameObject.name +
-            " [DIAG] StartReplacementFall cagrildi. t=" +
-            Time.realtimeSinceStartup
-        );
-
-
-        if (
-            !hasReplacementVisual ||
+        if (!hasReplacementVisual ||
             replacementVisual == null ||
-            isReplacementFalling
-        )
+            isReplacementFalling)
         {
             return;
         }
 
-
         isReplacementFalling = true;
-
 
         Transform cornBody =
             replacementVisualCornBody;
-
 
         Vector3 outwardDirection =
             replacementVisual.position -
@@ -927,12 +717,10 @@ public class LeafController : MonoBehaviour
                     : transform.position
             );
 
-
         Vector3 upDirection =
             cornBody != null
                 ? cornBody.up
                 : Vector3.up;
-
 
         outwardDirection =
             Vector3.ProjectOnPlane(
@@ -940,28 +728,20 @@ public class LeafController : MonoBehaviour
                 upDirection
             ).normalized;
 
-
-        if (
-            outwardDirection.sqrMagnitude <
-            0.001f
-        )
+        if (outwardDirection.sqrMagnitude < 0.001f)
         {
             outwardDirection =
                 replacementVisual.forward;
         }
 
-
-        // Duserken kocanin hareketinden bagimsiz olsun.
         replacementVisual.SetParent(
             null,
             true
         );
 
-
         Rigidbody leafRigidbody =
             replacementVisual
                 .GetComponent<Rigidbody>();
-
 
         if (leafRigidbody == null)
         {
@@ -971,30 +751,23 @@ public class LeafController : MonoBehaviour
                     .AddComponent<Rigidbody>();
         }
 
-
         leafRigidbody.mass =
             leafRigidbodyMass;
-
 
         leafRigidbody.drag =
             leafRigidbodyDrag;
 
-
         leafRigidbody.angularDrag =
             leafRigidbodyAngularDrag;
-
 
         leafRigidbody.useGravity =
             true;
 
-
         leafRigidbody.isKinematic =
             false;
 
-
         leafRigidbody.interpolation =
             RigidbodyInterpolation.Interpolate;
-
 
         leafRigidbody.velocity =
             outwardDirection *
@@ -1002,21 +775,15 @@ public class LeafController : MonoBehaviour
             Vector3.down *
             leafDownwardVelocity;
 
-
-        // Acisal hiz DOGRUDAN atanir (Impulse degil) - bkz. leafTorqueAmount aciklamasi.
         leafRigidbody.angularVelocity =
             Random.insideUnitSphere *
             leafTorqueAmount;
 
-
-        // Suzulme hissi icin yanal salinim yonu: dusme yonune (outwardDirection) ve
-        // yukari eksenine (upDirection) dik, yani yatayda "sag-sol" tarafa dogru.
         Vector3 swayAxis =
             Vector3.Cross(
                 upDirection,
                 outwardDirection
             ).normalized;
-
 
         StartCoroutine(
             HideFallenLeaf(
@@ -1032,15 +799,12 @@ public class LeafController : MonoBehaviour
         Vector3 swayAxis
     )
     {
-        // Dusme suresi boyunca hafif, salinimli bir yanal kuvvet uygulanir; yaprak
-        // duz asagi dusmek yerine ruzgarda suzuluyormus gibi sag-sola kayar.
         float elapsed = 0f;
 
         while (elapsed < leafPhysicsLifetime)
         {
             elapsed +=
                 Time.deltaTime;
-
 
             if (leafRigidbody != null)
             {
@@ -1053,7 +817,6 @@ public class LeafController : MonoBehaviour
                     ) *
                     leafSwayForce;
 
-
                 leafRigidbody.AddForce(
                     swayAxis *
                     swayForce,
@@ -1061,34 +824,27 @@ public class LeafController : MonoBehaviour
                 );
             }
 
-
             yield return null;
         }
-
 
         if (replacementVisual == null)
             yield break;
 
-
         Vector3 startingScale =
             replacementVisual.localScale;
 
-
         elapsed = 0f;
-
 
         while (elapsed < leafShrinkDuration)
         {
             elapsed +=
                 Time.deltaTime;
 
-
             float progress =
                 leafShrinkDuration > 0f
                     ? elapsed /
                       leafShrinkDuration
                     : 1f;
-
 
             replacementVisual.localScale =
                 Vector3.Lerp(
@@ -1097,14 +853,11 @@ public class LeafController : MonoBehaviour
                     progress
                 );
 
-
             yield return null;
         }
 
-
         replacementVisual.localScale =
             Vector3.zero;
-
 
         replacementVisual.gameObject
             .SetActive(false);
@@ -1116,24 +869,17 @@ public class LeafController : MonoBehaviour
         if (allLeavesOpenedMessagePrinted)
             return;
 
-
         LeafController[] allLeaves =
             FindObjectsOfType<LeafController>();
 
-
-        foreach (
-            LeafController leaf
-            in allLeaves
-        )
+        foreach (LeafController leaf in allLeaves)
         {
             if (!leaf.isOpen)
                 return;
         }
 
-
         allLeavesOpenedMessagePrinted =
             true;
-
 
         Debug.Log(
             "Tum mevcut yapraklar acildi!"

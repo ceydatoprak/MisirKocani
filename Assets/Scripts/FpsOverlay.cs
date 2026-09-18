@@ -1,7 +1,7 @@
 using UnityEngine;
 
 // Ekranin kosesinde anlik FPS gosteren basit bir debug overlay'i.
-// UI/Canvas kurulumu gerektirmez, OnGUI ile cizilir.
+
 public class FpsOverlay : MonoBehaviour
 {
     [SerializeField] private float updateInterval = 0.5f;
@@ -19,7 +19,7 @@ public class FpsOverlay : MonoBehaviour
 
     private void Awake()
     {
-        // VSyncCount != 0 iken Application.targetFrameRate yok sayilir; bu yuzden once kapatilir.
+        
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = targetFrameRate;
     }

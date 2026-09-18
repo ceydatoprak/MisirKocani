@@ -6,7 +6,7 @@ public class CornRotateController : MonoBehaviour
     public float autoRotateSpeed = 20f;
 
     // Iki yaprak da acilip mısır soyulabilir hale gelene kadar donmeye baslamaz
-    // (bkz. CornPeelController.StartPeeling -> StartRotating()).
+    
     private bool isRotating = false;
 
     public void StartRotating()
